@@ -1,0 +1,2 @@
+# This file ensures that the src/assets/images directory is tracked by Git.
+# Images here can be imported in React components and processed by the build tool.

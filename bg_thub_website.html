@@ -10,18 +10,18 @@
     --green: #1a6b2e;
     --green-light: #2a9444;
     --green-bright: #3dbd5c;
-    --green-glow: rgba(61,189,92,0.18);
-    --dark: #050a06;
-    --dark2: #0b110c;
-    --dark3: #111a12;
-    --surface: #141f15;
-    --surface2: #1a2a1b;
-    --border: rgba(61,189,92,0.12);
-    --border-bright: rgba(61,189,92,0.3);
-    --text: #e8f0e9;
-    --text-muted: #8aa08b;
-    --text-dim: #4a6b4b;
-    --white: #f0f5f1;
+    --green-glow: rgba(61,189,92,0.1);
+    --dark: #ffffff;
+    --dark2: #f8faf9;
+    --dark3: #f1f4f2;
+    --surface: #ffffff;
+    --surface2: #f4f7f5;
+    --border: rgba(0,0,0,0.06);
+    --border-bright: rgba(0,0,0,0.12);
+    --text: #111a12;
+    --text-muted: #556656;
+    --text-dim: #889989;
+    --white: #0a140b;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -44,7 +44,7 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     padding: 1.2rem 6vw;
     display: flex; align-items: center; justify-content: space-between;
-    background: rgba(5,10,6,0.85);
+    background: rgba(255,255,255,0.85);
     backdrop-filter: blur(18px);
     border-bottom: 1px solid var(--border);
     transition: all 0.3s;
@@ -654,8 +654,8 @@
   window.addEventListener('scroll', () => {
     const nav = document.querySelector('nav');
     nav.style.background = window.scrollY > 60
-      ? 'rgba(5,10,6,0.98)'
-      : 'rgba(5,10,6,0.85)';
+      ? 'rgba(255,255,255,0.98)'
+      : 'rgba(255,255,255,0.85)';
   });
 
   // Intersection observer for section animations
