@@ -7,7 +7,7 @@ import Services from "@/components/Services";
 import Products from "@/components/Products";
 import WhyUs from "@/components/WhyUs";
 import StudentSupport from "@/components/StudentSupport";
-import Portfolio from "@/components/Portfolio";
+// import Portfolio from "@/components/Portfolio";
 import Testimonials from "@/components/Testimonials";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -27,7 +27,7 @@ export default function Home() {
         <Products />
         <WhyUs />
         <StudentSupport />
-        <Portfolio />
+        {/* <Portfolio /> */}
         <Testimonials />
         <Contact />
       </main>

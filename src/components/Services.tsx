@@ -110,7 +110,7 @@ export default function Services() {
         >
           <motion.div variants={textVariant} className="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full bg-emerald-100/50 border border-emerald-200">
             <span className="h-1 w-1 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-emerald-700">Expertise</span>
+            <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-emerald-700">Services</span>
           </motion.div>
 
           <motion.h2 variants={textVariant} className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-6">
@@ -243,8 +243,8 @@ export default function Services() {
                       type="submit"
                       disabled={bookingStatus !== "idle"}
                       className={`w-full py-4 rounded-xl font-black uppercase tracking-widest text-[10px] shadow-lg transition-all ${bookingStatus === "success"
-                          ? "bg-emerald-500 text-white"
-                          : "bg-slate-900 text-white hover:bg-emerald-600 active:scale-95"
+                        ? "bg-emerald-500 text-white"
+                        : "bg-slate-900 text-white hover:bg-emerald-600 active:scale-95"
                         }`}
                     >
                       {bookingStatus === "loading" ? "Initializing..." : bookingStatus === "success" ? "Proposal Sent!" : "Submit Inquiry"}

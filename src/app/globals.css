@@ -282,3 +282,10 @@
    ============================================= */
 
 /* Glitch — stripe flicker */
+
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #0f172a;
+  /* Matches your slate-900 */
+  border-radius: 10px;
+}

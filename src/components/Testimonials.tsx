@@ -7,29 +7,50 @@ import { Quote, Star } from "lucide-react";
 const reviews = [
   {
     name: "Arjun Kapoor",
-    role: "Founder, LogiStart",
     initials: "AK",
+    role: "Proprietary Trader",
     gradient: "from-green-500 to-emerald-600",
     text: "BG THUB took our rough idea and turned it into a polished product in just 6 weeks. Their team is incredibly fast, communicative, and genuinely invested in your success."
   },
   {
     name: "Priya Sharma",
-    role: "CS Student, NMIT Bangalore",
     initials: "PS",
+    role: "Student, IIT Delhi",
     gradient: "from-emerald-400 to-green-500",
     text: "As a final year student, I didn't know where to start. BG THUB mentored me through every step and helped me launch my first real app. Couldn't have done it without them."
   },
   {
     name: "Rohit Nair",
-    role: "Co-founder, BuildWave",
     initials: "RN",
+    role: "Founder, AgriTech",
     gradient: "from-green-600 to-teal-500",
     text: "We needed an AI-powered solution on a tight budget. BG THUB delivered something beyond what we expected — clean, scalable, and exactly on time. Highly recommend."
+  },
+  {
+    name: "Vikas Malhotra",
+    initials: "VM",
+    role: "CTO, Ridexe",
+    gradient: "from-green-500 to-emerald-600",
+    text: "Working with BG THUB was a game-changer for our platform. Their technical depth in AI and real-time systems is unmatched."
+  },
+  {
+    name: "Ananya Goyal",
+    initials: "AG",
+    role: "Designer",
+    gradient: "from-emerald-400 to-green-500",
+    text: "The UI/UX design BG THUB implemented for our school management system was beautiful and incredibly intuitive. Exceptional talent."
+  },
+  {
+    name: "Sameer Sen",
+    initials: "SS",
+    role: "Marketing Head",
+    gradient: "from-green-600 to-teal-500",
+    text: "They didn't just build a website; they built a lead-generating machine. Our conversion rates are up by 40% since the launch."
   }
 ];
 
 export default function Testimonials() {
-  const fadeInUp = {
+  const fadeInUp: any = {
     initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true },

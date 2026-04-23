@@ -1,29 +1,59 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Menu, X, Sparkles, ArrowRight } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation"; // Import the router
+import Link from "next/link"; // Import Link for internal navigation
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("#about");
+  const router = useRouter(); // Initialize router
+
+  const navItems = [
+    { name: "About", href: "#about" },
+    { name: "Services", href: "#services" },
+    { name: "OurWork", href: "#work" },
+    { name: "Academy", href: "#academy" },
+    { name: "Contact", href: "#contact" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
-  const navItems = [
-    { name: "About", href: "#about" },
-    { name: "Services", href: "#services" },
-    { name: "Products", href: "#products" },
-    { name: "Students", href: "#student" },
-    { name: "Contact", href: "#contact" },
-  ];
+    const observerOptions = {
+      root: null,
+      rootMargin: "-20% 0px -70% 0px",
+      threshold: 0,
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveLink(`#${entry.target.id}`);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    navItems.forEach((item) => {
+      const sectionId = item.href.replace("#", "");
+      const element = document.getElementById(sectionId);
+      if (element) observer.observe(element);
+    });
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <nav
@@ -33,20 +63,14 @@ export default function Navbar() {
         }`}
     >
       <div className="max-w-5xl mx-auto px-6 flex justify-between items-center">
-        {/* LEFT: Logo Section */}
+        {/* Logo - Wrapped in Link to return home */}
         <div className="flex-1 flex justify-start items-center gap-3">
-          <div className="flex items-center gap-3 cursor-pointer group">
-            <div className="p-1  group-hover:border-green-500/30 transition-colors">
-              <img
-                src="/assets/images/logo.png"
-                alt="BG THUB Logo"
-                className="h-8 w-auto object-contain transition-transform group-hover:scale-105"
-              />
-            </div>
-          </div>
+          <Link href="/">
+            <img src="/assets/images/logo.png" alt="Logo" className="h-8 w-auto cursor-pointer" />
+          </Link>
         </div>
 
-        {/* MIDDLE: Nav Links */}
+        {/* Nav Links */}
         <ul className="hidden md:flex items-center gap-8 flex-1 justify-center">
           {navItems.map((item) => (
             <li key={item.href}>
@@ -56,13 +80,13 @@ export default function Navbar() {
                   ? "text-green-600"
                   : "text-slate-600 hover:text-black"
                   }`}
-                onClick={() => setActiveLink(item.href)}
               >
                 {item.name}
                 {activeLink === item.href && (
                   <motion.div
                     layoutId="navUnderline"
                     className="absolute -bottom-1 left-0 w-full h-[2px] bg-green-500"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
               </a>
@@ -70,47 +94,39 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* RIGHT: Button */}
+        {/* Action Buttons */}
         <div className="flex-1 flex justify-end items-center gap-4">
-          <a
-            href="#contact"
-            className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl font-black text-[9px] uppercase tracking-widest transition-all hover:shadow-[0_0_20px_rgba(34,197,94,0.3)] hover:-translate-y-0.5 active:scale-95"
-          >
-            <Sparkles size={12} className="hidden sm:block" />
-            Get Started
-          </a>
-
-          {/* Mobile Menu Toggle */}
           <button
-            className="md:hidden text-slate-800 p-1"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            onClick={() => router.push("/work/booking")} // Navigate to page
+            className="bg-green-500 hover:bg-green-600 transition-colors text-white px-4 py-2 rounded-xl font-black text-[9px] uppercase tracking-widest cursor-pointer shadow-lg shadow-green-500/20"
           >
+            Book a call
+          </button>
+          <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu (Optional logic update) */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-b border-black/[0.05] overflow-hidden"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="absolute top-full left-0 w-full bg-white border-b border-slate-100 p-6 flex flex-col gap-4 md:hidden"
           >
-            <div className="flex flex-col p-6 gap-6">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="text-sm font-bold text-slate-600 hover:text-green-600 tracking-widest uppercase flex justify-between items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.name} <ArrowRight size={16} />
-                </a>
-              ))}
-            </div>
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-[10px] font-bold uppercase tracking-widest text-slate-600"
+              >
+                {item.name}
+              </a>
+            ))}
           </motion.div>
         )}
       </AnimatePresence>
