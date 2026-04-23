@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion, useMotionValue, animate, useInView, useSpring } from 'framer-motion';
 import { Star, ArrowRight } from "lucide-react";
 import { useRouter } from 'next/navigation';

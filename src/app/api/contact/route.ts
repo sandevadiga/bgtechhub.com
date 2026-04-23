@@ -3,13 +3,11 @@ import { Resend } from 'resend';
 import { connectDB } from "@/lib/db";
 import Contact from "@/models/Contact";
 
-// Initialize Resend with API key
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 // Owner email (fixed)
 const CONTACT_EMAIL = 'rajeshwariy202@gmail.com';
 
 export async function POST(request: Request) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
   try {
     // 1. Connect to Database
     await connectDB();

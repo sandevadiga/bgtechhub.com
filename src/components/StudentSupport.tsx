@@ -143,7 +143,9 @@ export default function StudentSection() {
                   <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-20 rounded-2xl rotate-6 group-hover:rotate-12 transition-transform`} />
                   <div className={`relative w-full h-full rounded-2xl ${feature.bg} border border-white flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform`}>
                     <div className={`${feature.iconColor}`}>
-                      {cloneElement(feature.icon as React.ReactElement<any>, { className: "w-7 h-7 stroke-[2.5px]" })}
+                      {cloneElement(feature.icon as React.ReactElement<{ className?: string }>, {
+                        className: "w-6 h-6 stroke-[2.5px]",
+                      })}
                     </div>
                   </div>
                 </div>

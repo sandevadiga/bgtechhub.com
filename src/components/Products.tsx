@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
-import Link from "next/link"; // Import Link from next/link
+import Link from "next/link";
 
 const products = [
   {
