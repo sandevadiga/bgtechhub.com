@@ -1,22 +1,30 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence, Variants } from "framer-motion";
-import { ServiceDetail } from "@/types";
+import { motion, AnimatePresence } from "framer-motion";
+
+// Types
+interface ServiceDetail {
+  id: string;
+  icon: React.ReactNode;
+  title: string;
+  tagline: string;
+  description: string;
+  features: string[];
+  process: string[];
+  timeline: string;
+  priceRange: string;
+}
 
 const serviceDetails: ServiceDetail[] = [
   {
     id: "app-dev",
     icon: (
-      <div className="relative w-full h-full flex items-center justify-center">
-        {/* Neon Glow Layer */}
-        <div className="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/40 blur-2xl rounded-full transition-all duration-500 scale-0 group-hover:scale-150" />
-        <svg className="relative w-full h-full text-blue-400 group-hover:text-white transition-colors duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <rect x="5" y="2" width="14" height="20" rx="3" strokeWidth="1.5" />
-          <path strokeLinecap="round" d="M12 18h.01" strokeWidth="2" />
-          <path strokeLinecap="round" strokeDasharray="2 4" d="M9 7h6" strokeWidth="1.5" />
-        </svg>
-      </div>
+      <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <rect x="5" y="2" width="14" height="20" rx="3" strokeWidth="1.5" />
+        <path strokeLinecap="round" d="M12 18h.01" strokeWidth="2" />
+        <path strokeLinecap="round" strokeDasharray="2 4" d="M9 7h6" strokeWidth="1.5" />
+      </svg>
     ),
     title: "App Development",
     tagline: "From concept to Play Store — build apps users love.",
@@ -27,13 +35,10 @@ const serviceDetails: ServiceDetail[] = [
   {
     id: "web-dev",
     icon: (
-      <div className="relative w-full h-full flex items-center justify-center">
-        <div className="absolute inset-0 bg-cyan-500/0 group-hover:bg-cyan-500/40 blur-2xl rounded-full transition-all duration-500 scale-0 group-hover:scale-150" />
-        <svg className="relative w-full h-full text-cyan-400 group-hover:text-white transition-colors duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
-        </svg>
-      </div>
+      <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+      </svg>
     ),
     title: "Web Engineering",
     tagline: "Beautiful, fast, and responsive websites.",
@@ -44,12 +49,9 @@ const serviceDetails: ServiceDetail[] = [
   {
     id: "ai-solutions",
     icon: (
-      <div className="relative w-full h-full flex items-center justify-center">
-        <div className="absolute inset-0 bg-purple-500/0 group-hover:bg-purple-500/40 blur-2xl rounded-full transition-all duration-500 scale-0 group-hover:scale-150" />
-        <svg className="relative w-full h-full text-purple-400 group-hover:text-white transition-colors duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
-        </svg>
-      </div>
+      <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+      </svg>
     ),
     title: "AI Solutions",
     tagline: "Smart features that give you an unfair advantage.",
@@ -58,14 +60,11 @@ const serviceDetails: ServiceDetail[] = [
     process: [], timeline: "3 – 10 weeks", priceRange: "₹30k – ₹3L+",
   },
   {
-    id: "student-support",
+    id: "mentor-support",
     icon: (
-      <div className="relative w-full h-full flex items-center justify-center">
-        <div className="absolute inset-0 bg-emerald-500/0 group-hover:bg-emerald-500/40 blur-2xl rounded-full transition-all duration-500 scale-0 group-hover:scale-150" />
-        <svg className="relative w-full h-full text-emerald-400 group-hover:text-white transition-colors duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-        </svg>
-      </div>
+      <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+      </svg>
     ),
     title: "Mentor Support",
     tagline: "Turn projects into real-world products.",
@@ -79,175 +78,229 @@ export default function Services() {
   const [activeService, setActiveService] = useState<ServiceDetail | null>(null);
   const [bookingStatus, setBookingStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  const textVariant: Variants = {
-    hidden: { opacity: 0, y: 15 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
   };
 
-  async function handleBookingSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+  };
+
+  const handleBookingSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setBookingStatus("loading");
-    setTimeout(() => {
-      setBookingStatus("success");
-      setTimeout(() => {
-        setActiveService(null);
-        setBookingStatus("idle");
-        document.body.style.overflow = "";
-      }, 1500);
-    }, 1200);
-  }
+
+    const formData = new FormData(e.currentTarget);
+
+    // Constructing the payload for your MongoDB API
+    const payload = {
+      serviceId: activeService?.id,
+      serviceTitle: activeService?.title,
+      customerName: formData.get("customerName"),
+      email: formData.get("email"),
+      budgetTier: formData.get("budgetTier"),
+      context: formData.get("context"),
+    };
+
+    try {
+      const response = await fetch("/api/inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        setBookingStatus("success");
+        setTimeout(() => {
+          closeModal();
+          setBookingStatus("idle");
+        }, 2000);
+      } else {
+        setBookingStatus("error");
+        setTimeout(() => setBookingStatus("idle"), 3000);
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      setBookingStatus("error");
+      setTimeout(() => setBookingStatus("idle"), 3000);
+    }
+  };
+
+  const closeModal = () => {
+    setActiveService(null);
+    document.body.style.overflow = "auto";
+  };
 
   return (
-    <section id="services" className="relative py-20 overflow-hidden bg-[#f8fafc]">
-      <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-12">
-
-        {/* Header Section */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="flex flex-col items-center text-center mb-16"
-        >
-          <motion.div variants={textVariant} className="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full bg-emerald-100/50 border border-emerald-200">
-            <span className="h-1 w-1 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-emerald-700">Services</span>
-          </motion.div>
-
-          <motion.h2 variants={textVariant} className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-6">
-            Our Core <span className="text-emerald-600 italic">Capabilities</span>
+    <section id="services" className="relative py-24 bg-[#fcfcfc] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Section Header */}
+        <div className="text-center mb-20 space-y-4">
+          <motion.span
+            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
+            className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-600 bg-emerald-50 px-4 py-2 rounded-full border border-emerald-100"
+          >
+            Services
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter"
+          >
+            Engineering <span className="text-emerald-500 italic">Excellence</span>
           </motion.h2>
+        </div>
 
-          <motion.p variants={textVariant} className="max-w-xl text-base text-slate-500 font-medium leading-relaxed">
-            We engineer high-performance digital solutions tailored for growth and precision.
-          </motion.p>
-        </motion.div>
-
-        {/* Services Grid */}
+        {/* Grid */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          transition={{ staggerChildren: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8"
+          variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {serviceDetails.map((svc) => (
             <motion.div
               key={svc.id}
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0 }
-              }}
-              onClick={() => {
-                setActiveService(svc);
-                document.body.style.overflow = "hidden";
-              }}
-              className="group relative p-8 md:p-10 rounded-[2.5rem] bg-white border border-slate-200 hover:border-emerald-300 hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-500 cursor-pointer overflow-hidden"
+              variants={itemVariants}
+              whileHover={{ y: -12 }}
+              onClick={() => { setActiveService(svc); document.body.style.overflow = "hidden"; }}
+              className="group p-8 rounded-[2.5rem] bg-white border border-slate-100 hover:border-emerald-200 hover:shadow-[0_20px_50px_rgba(16,185,129,0.1)] transition-all duration-500 cursor-pointer"
             >
-              {/* Icon Container with Pop Effect */}
-              <motion.div
-                whileHover={{ scale: 1.2, y: -8, rotate: 5 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                className="flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-900 text-white p-4 shadow-xl group-hover:bg-emerald-500 transition-all duration-500 ease-out"
-              >
+              <div className="w-14 h-14 rounded-2xl bg-slate-900 text-white p-3.5 mb-8 group-hover:bg-emerald-500 group-hover:scale-110 transition-all duration-500 shadow-lg">
                 {svc.icon}
-              </motion.div>
-
-              <h3 className="text-xl font-bold text-slate-900 mt-8 mb-3 tracking-tight group-hover:text-emerald-600 transition-colors">
-                {svc.title}
-              </h3>
-
-              <p className="text-xs text-slate-500 font-medium leading-relaxed mb-6">
-                {svc.tagline}
-              </p>
-
-              <div className="flex items-center gap-3 pt-5 border-t border-slate-50">
-                <span className="text-[9px] font-bold uppercase tracking-widest text-emerald-600">View Details</span>
-                <div className="h-px flex-1 bg-slate-100" />
-                <motion.div
-                  className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M9 5l7 7-7 7" /></svg>
-                </motion.div>
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3 tracking-tight">{svc.title}</h3>
+              <p className="text-sm text-slate-500 leading-relaxed mb-8 line-clamp-2">{svc.tagline}</p>
+              <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-emerald-600">
+                View Details <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
               </div>
             </motion.div>
           ))}
         </motion.div>
       </div>
 
-      {/* Modal Section */}
+      {/* Detail Modal */}
       <AnimatePresence>
         {activeService && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-[100] flex items-start justify-center p-4 md:p-10 pt-24 md:pt-32 overflow-y-auto">
+            {/* Backdrop */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => { setActiveService(null); document.body.style.overflow = ""; }}
-              className="absolute inset-0 bg-slate-900/60 backdrop-blur-md"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={closeModal}
+              className="fixed inset-0 bg-slate-900/40 backdrop-blur-xl"
             />
 
+            {/* Modal Content */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 40 }}
+              initial={{ opacity: 0, scale: 0.9, y: 80 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 40 }}
-              className="relative w-full max-w-2xl bg-white border border-slate-200 rounded-[2.5rem] shadow-2xl overflow-hidden"
+              exit={{ opacity: 0, scale: 0.9, y: 80 }}
+              className="relative w-full max-w-5xl bg-white rounded-[3.5rem] shadow-4xl overflow-hidden flex flex-col md:flex-row min-h-[650px] mb-12"
             >
-              <div className="p-10">
-                <div className="flex justify-between items-start mb-10">
-                  <div className="flex gap-5 items-center">
-                    <div className="w-14 h-14 rounded-2xl bg-slate-900 flex items-center justify-center text-white p-3 shadow-lg">
-                      {activeService.icon}
-                    </div>
-                    <div>
-                      <h2 className="text-2xl font-black text-slate-900 tracking-tight">{activeService.title}</h2>
-                      <p className="text-xs text-emerald-600 font-bold uppercase tracking-widest mt-1">{activeService.timeline}</p>
-                    </div>
-                  </div>
-                  <button onClick={() => { setActiveService(null); document.body.style.overflow = ""; }} className="p-2 bg-slate-50 rounded-full text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-all">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" /></svg>
+              {/* Left Branding Column */}
+              <div className="w-full md:w-2/5 bg-slate-900 p-12 text-white flex flex-col justify-between relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 blur-[100px] rounded-full -mr-40 -mt-40" />
+                <div className="relative z-10">
+                  <button onClick={closeModal} className="mb-12 text-slate-400 hover:text-white transition-colors flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
+                    <span>✕</span> Close
                   </button>
+                  <div className="w-20 h-20 rounded-3xl bg-white/5 border border-white/10 p-5 mb-8 backdrop-blur-sm">
+                    <div className="text-emerald-400">{activeService.icon}</div>
+                  </div>
+                  <h2 className="text-4xl font-black tracking-tighter mb-6">{activeService.title}</h2>
+                  <p className="text-slate-400 text-sm leading-relaxed mb-10">{activeService.description}</p>
+                  <div className="space-y-4">
+                    {activeService.features.map((f, i) => (
+                      <div key={i} className="flex items-center gap-3 text-sm font-medium text-slate-300">
+                        <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                        {f}
+                      </div>
+                    ))}
+                  </div>
                 </div>
+                <div className="relative z-10 mt-12 pt-8 border-t border-white/5">
+                  <p className="text-[10px] font-black uppercase tracking-[0.25em] text-emerald-500 mb-2">Investment Guide</p>
+                  <p className="text-3xl font-black text-white tracking-tight">{activeService.priceRange}</p>
+                </div>
+              </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                  <div className="space-y-6">
-                    <div>
-                      <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-4">Core Features</h4>
-                      <div className="space-y-3">
-                        {activeService.features.map((f, i) => (
-                          <motion.div
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: i * 0.1 }}
-                            key={i}
-                            className="flex items-center gap-3 text-slate-600"
+              {/* Right Form Column */}
+              <div className="w-full md:w-3/5 p-12 md:p-16 bg-white">
+                <div className="max-w-md mx-auto">
+                  <h4 className="text-3xl font-black text-slate-900 mb-2">Book This Service</h4>
+                  <p className="text-slate-500 text-sm mb-12 font-medium">We'll analyze your requirements and return with a technical proposal within 24 hours.</p>
+
+                  <form onSubmit={handleBookingSubmit} className="flex flex-col gap-8">
+                    <div className="group space-y-2">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Your Name</label>
+                      <input
+                        name="customerName" // Name matching payload key
+                        type="text"
+                        placeholder="e.g. Ravi Kumar"
+                        required
+                        className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 text-sm focus:bg-white focus:border-emerald-500 outline-none transition-all"
+                      />
+                    </div>
+                    <div className="group space-y-2">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Business Email</label>
+                      <input
+                        name="email" // Name matching payload key
+                        type="email"
+                        placeholder="you@company.com"
+                        required
+                        className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 text-sm focus:bg-white focus:border-emerald-500 outline-none transition-all"
+                      />
+                    </div>
+                    <div className="group space-y-2">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                        Budget Tier
+                      </label>
+                      <div className="relative">
+                        <select
+                          name="budgetTier"
+                          className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 text-sm outline-none cursor-pointer appearance-none focus:border-emerald-500 focus:bg-white transition-all pr-12"
+                        >
+                          <option value="">Select budget range</option>
+                          <option value="Startup Tier (₹50k - ₹1.5L)">Startup Tier (₹50k - ₹1.5L)</option>
+                          <option value="Enterprise Tier (₹1.5L - ₹5L)">Enterprise Tier (₹1.5L - ₹5L)</option>
+                          <option value="Custom Build (₹5L+)">Custom Build (₹5L+)</option>
+                        </select>
+
+                        {/* Dropdown Icon */}
+                        <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={3}
                           >
-                            <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                            <span className="text-xs font-semibold">{f}</span>
-                          </motion.div>
-                        ))}
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
                       </div>
                     </div>
-
-                    <div className="p-5 rounded-2xl bg-emerald-50/50 border border-emerald-100">
-                      <p className="text-[9px] font-bold uppercase tracking-widest text-emerald-700 mb-1">Pricing Guide</p>
-                      <p className="text-emerald-600 font-black text-lg">{activeService.priceRange}</p>
+                    <div className="group space-y-2">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Project Context</label>
+                      <textarea name="context" rows={4} placeholder="Describe the core features..." className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 text-sm focus:bg-white focus:border-emerald-500 outline-none resize-none transition-all" />
                     </div>
-                  </div>
-
-                  <form onSubmit={handleBookingSubmit} className="space-y-4 p-8 rounded-3xl bg-slate-50 border border-slate-100">
-                    <h4 className="text-sm font-black text-slate-900 mb-2">Request Architecture Call</h4>
-                    <input type="text" placeholder="Your Name" required className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all" />
-                    <input type="email" placeholder="Business Email" required className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all" />
-                    <textarea placeholder="Tell us about your project..." rows={3} className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs focus:ring-2 focus:ring-emerald-500/20 outline-none resize-none transition-all" />
                     <button
                       type="submit"
                       disabled={bookingStatus !== "idle"}
-                      className={`w-full py-4 rounded-xl font-black uppercase tracking-widest text-[10px] shadow-lg transition-all ${bookingStatus === "success"
-                        ? "bg-emerald-500 text-white"
-                        : "bg-slate-900 text-white hover:bg-emerald-600 active:scale-95"
+                      className={`relative mt-4 w-full py-5 rounded-2xl font-black text-[11px] uppercase tracking-[0.25em] transition-all flex items-center justify-center gap-3 overflow-hidden shadow-2xl ${bookingStatus === "success"
+                        ? "bg-emerald-600 text-white"
+                        : bookingStatus === "error"
+                          ? "bg-red-500 text-white"
+                          : "bg-slate-900 text-white hover:bg-emerald-500 shadow-emerald-500/10"
                         }`}
                     >
-                      {bookingStatus === "loading" ? "Initializing..." : bookingStatus === "success" ? "Proposal Sent!" : "Submit Inquiry"}
+                      {bookingStatus === "loading" && (
+                        <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                      )}
+                      {bookingStatus === "loading" ? "Initializing..." : bookingStatus === "success" ? "Proposal Sent!" : bookingStatus === "error" ? "Try Again" : "Submit Inquiry"}
                     </button>
                   </form>
                 </div>

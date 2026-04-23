@@ -1,25 +1,47 @@
 "use client"
-
+// UI Icons from Lucide
 import {
-    Link as LinkIcon,
     ArrowUpRight,
-    LayoutDashboard,
     ClipboardList,
-    Users,
-    User,
+    LayoutDashboard,
+    LinkIcon,
     LogOut,
-    MoreHorizontal
+    Link as LucideLinkIcon,
+    Menu,
+    MessageCircle,
+    MoreHorizontal,
+    MoveLeft,
+    MoveRight,
+    MoveLeft as NavLeft,
+    MoveRight as NavRight,
+    Share2,
+    User,
+    Users,
+    X
 } from 'lucide-react';
-import {
-    FaTwitter as Twitter,
-    FaLinkedin as Linkedin,
-    FaFacebook as Facebook
-} from 'react-icons/fa6';
+import Link from 'next/link'; // Standard Next.js navigation
 import Footer from '@/components/Footer';
 import { useRouter } from 'next/navigation';
 import SocialFlipButton from '@/components/ui/social-flip-button';
+import { useState } from 'react';
+
+import {
+    FaTwitter as Twitter,
+    FaLinkedin as Linkedin,
+    FaFacebook as Facebook,
+    FaWhatsapp as WhatsApp
+} from 'react-icons/fa6';
 
 const ProtaskLandingPage = () => {
+
+    const shareLinks = [
+        { name: 'X', icon: <Twitter size={18} fill="currentColor" />, url: 'https://twitter.com' },
+        { name: 'LinkedIn', icon: <Linkedin size={18} fill="currentColor" />, url: 'https://linkedin.com' },
+        { name: 'WhatsApp', icon: <MessageCircle size={18} />, url: 'https://wa.me/yournumber' },
+        { name: 'Facebook', icon: <Facebook size={18} fill="currentColor" />, url: 'https://facebook.com' },
+        { name: 'Reddit', icon: <Share2 size={18} />, url: 'https://reddit.com' }
+    ];
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const router = useRouter();
 
     const handleBookingClick = () => {
@@ -30,42 +52,49 @@ const ProtaskLandingPage = () => {
     return (
         <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-emerald-100">
             {/* Navigation */}
-            <nav className="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
-                <div className="flex items-center gap-2 group cursor-pointer">
-                    <div className="w-10 h-10 bg-[#00C752] rounded-xl flex items-center justify-center transition-transform group-hover:rotate-12">
-                        <span className="text-white font-bold text-2xl">P</span>
+            {/* Decreased navbar height by reducing padding */}
+            <nav className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-md border-b border-gray-100">
+                <div className="flex items-center justify-between px-6 py-2 md:px-8 md:py-3 max-w-7xl mx-auto">
+
+                    {/* Logo Area - Slightly smaller to fit the slim bar */}
+                    <div className="flex-1 flex justify-start items-center">
+                        <Link href="/">
+                            <img src="/assets/images/logo.png" alt="Logo" className="h-8 md:h-9 w-auto cursor-pointer" />
+                        </Link>
                     </div>
-                    <span className="text-2xl font-bold tracking-tight">Protask</span>
+
+                    {/* Desktop Navigation Links - Reduced vertical padding on the pill */}
+                    <div className="hidden md:flex items-center bg-gray-50/80 backdrop-blur-md rounded-full px-6 py-2 shadow-sm border border-gray-100 gap-8">
+                        {['Product', 'Features', 'Industries', 'Pricing'].map((item) => (
+                            <a key={item} href="#" className="text-sm font-semibold text-gray-600 hover:text-[#00C752] transition-colors">
+                                {item}
+                            </a>
+                        ))}
+                    </div>
+
+                    {/* Desktop Button - Reduced padding to match slim height */}
+                    <div className="flex-1 flex justify-end items-center gap-4">
+                        <button
+                            onClick={() => console.log("Booking...")}
+                            className="hidden sm:flex group relative bg-[#0f0f0f] text-white px-5 py-2.5 rounded-full items-center gap-3 transition-all duration-500 hover:shadow-[0_10px_20px_-10px_rgba(0,199,82,0.3)] hover:-translate-y-0.5 active:scale-95"
+                        >
+                            <span className="font-bold text-xs uppercase tracking-[0.1em] relative z-10">
+                                Book a call
+                            </span>
+                            <span className="relative z-10 bg-white/5 border border-white/10 rounded-full p-1 group-hover:bg-[#00C752] transition-all duration-500">
+                                <ArrowUpRight size={14} className="group-hover:rotate-45 transition-transform" />
+                            </span>
+                        </button>
+
+                        {/* Hamburger Icon */}
+                        <button
+                            className="md:hidden p-1 text-gray-900 focus:outline-none"
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        >
+                            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                        </button>
+                    </div>
                 </div>
-
-                <div className="hidden md:flex items-center bg-gray-50/80 backdrop-blur-md rounded-full px-8 py-3 shadow-sm border border-gray-100 gap-8">
-                    {['Product', 'Features', 'Industries', 'Pricing'].map((item) => (
-                        <a key={item} href="#" className="text-sm font-semibold text-gray-600 hover:text-[#00C752] transition-colors">
-                            {item}
-                        </a>
-                    ))}
-                </div>
-
-                <button
-                    onClick={handleBookingClick}
-                    className="group relative bg-[#0f0f0f] text-white px-8 py-4 rounded-full flex items-center gap-4 transition-all duration-500 hover:shadow-[0_15px_30px_-10px_rgba(0,199,82,0.3)] hover:-translate-y-0.5 active:scale-95"
-                >
-                    {/* Button Text */}
-                    <span className="font-bold text-sm uppercase tracking-[0.15em] relative z-10">
-                        Book a call
-                    </span>
-
-                    {/* Icon Container */}
-                    <span className="relative z-10 bg-white/5 border border-white/10 rounded-full p-2 group-hover:bg-[#00C752] group-hover:border-[#00C752] transition-all duration-500 ease-out">
-                        <ArrowUpRight
-                            size={16}
-                            className="group-hover:rotate-45 transition-transform duration-500"
-                        />
-                    </span>
-
-                    {/* Subtle Background Glow on Hover */}
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#00C752]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                </button>
             </nav>
 
             {/* Hero Section */}
@@ -73,8 +102,8 @@ const ProtaskLandingPage = () => {
                 <div className="flex flex-col lg:flex-row gap-12 items-center">
 
                     {/* Left Content */}
-                    <div className="flex-1 space-y-10">
-                        <div className="flex items-center gap-2 text-sm">
+                    <div className="flex-1 space-y-2">
+                        <div className="flex items-center gap-2 text-sm mt-4 mb-10">
                             <span className="bg-emerald-50 text-[#00C752] px-3 py-1 rounded-full font-bold uppercase tracking-wider text-[10px]">
                                 our Work
                             </span>
@@ -84,8 +113,15 @@ const ProtaskLandingPage = () => {
                             </span>
                         </div>
 
+                        <div className="flex-1 flex justify-start items-center gap-3">
+                            <Link href="/">
+                                {/* Changed h-8 to h-12 */}
+                                <img src="/assets/images/protask.png" alt="Logo" className="h-20 w-auto cursor-pointer" />
+                            </Link>
+                        </div>
+
                         <div className="space-y-6">
-                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black leading-[0.95] tracking-tighter text-slate-900">
+                            <h1 className="text-2xl md:text-3xl lg:text-4xl font-black leading-[0.95] tracking-tighter text-slate-900">
                                 Smarter Task &
                                 <span className="text-slate-400">Task</span><br />
                                 <span className="text-[#00C752] italic font-serif">Distribution.</span><br />
@@ -105,7 +141,7 @@ const ProtaskLandingPage = () => {
                     </div>
 
                     {/* Right Dashboard Section (Replacing Mobile) */}
-                    <div className="flex-1 w-full relative">
+                    <div className="flex-1 w-full relative mt-20">
                         {/* Decorative Background Glow */}
                         <div className="absolute -inset-4 bg-[#00C752]/10 blur-3xl rounded-full" />
 
@@ -193,87 +229,131 @@ const ProtaskLandingPage = () => {
 
 
             <section className="max-w-7xl mx-auto px-8 py-20 border-t border-gray-100">
-                {/* Using items-start is crucial for sticky to work */}
-                <div className="flex flex-col lg:flex-row gap-16 items-start relative">
+                <div className="flex flex-col lg:flex-row gap-12 items-start relative">
 
-                    {/* LEFT COLUMN: Fixed About */}
-                    <div className="lg:w-1/4 lg:sticky lg:top-32 space-y-12">
+                    {/* LEFT COLUMN: Slimmer About (20%) */}
+                    <div className="lg:w-[20%] lg:sticky lg:top-32 space-y-6">
                         <div>
                             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-4">About</p>
-                            <h3 className="text-2xl font-bold mb-2 flex items-center gap-2">
-                                Protask <LinkIcon size={16} className="text-gray-300" />
-                            </h3>
-                            <p className="text-sm text-gray-500 leading-relaxed">
+
+                            {/* Horizontal line with little gray color */}
+                            <div className="w-50 h-[1.5px] bg-gray-200 mb-6" />
+
+                            <Link href="https://protask.in" target="_blank">
+                                <h3 className="text-2xl font-bold mb-2 flex items-center gap-2 group cursor-pointer hover:text-[#00C752] transition-colors">
+                                    Protask
+                                    <LinkIcon
+                                        size={18}
+                                        className="text-gray-400 group-hover:text-[#00C752] transition-colors"
+                                    />
+                                </h3>
+                            </Link>
+
+                            <p className="text-xs text-gray-500 leading-relaxed">
                                 Protask is India's premier smart mobility aggregator, centralizing transport comparison,
                                 local events, and AI-driven trip planning into one seamless ecosystem.
                             </p>
                         </div>
+
                         <div>
-                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-4">HQ</p>
+                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">HQ</p>
                             <p className="text-sm text-slate-900 font-semibold">Bangalore India</p>
                         </div>
                         <div>
-                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-4">Industry</p>
-                            <p className="text-sm text-slate-900 font-semibold">Travel Tech & Smart Mobility</p>
+                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Industry</p>
+                            <p className="text-sm text-slate-900 font-semibold leading-tight">IT Industry</p>
                         </div>
                     </div>
 
-                    {/* MIDDLE COLUMN: Scrolling Content */}
-                    <div className="lg:w-2/4 space-y-16">
+                    {/* MIDDLE COLUMN: Expanded Content (60%) */}
+                    <div className="lg:w-[60%] space-y-20">
                         <div className="space-y-12">
-                            <h2 className="text-4xl md:text-5xl font-bold leading-tight">
-                                Smarter Task &
-                                Workflow Management
+                            <h2 className="text-4xl md:text-6xl font-bold leading-tight tracking-tight text-slate-900">
+                                Smarter Task & <br />
+                                <span className="text-gray-400">Workflow Management</span>
                             </h2>
                             <div className="w-full h-px bg-gray-100" />
 
                             {/* The Challenge */}
-                            <div className="space-y-8">
+                            <div className="space-y-2">
                                 <h3 className="text-3xl font-bold text-slate-900">The Challenge</h3>
-                                <div className="space-y-6 text-lg text-gray-500 leading-relaxed">
+                                <div className="space-y-2 text-lg text-gray-500 leading-relaxed">
                                     <p>
-                                        Field service management is often plagued by fragmented communication, where managers lose track of technician locations and task statuses. **PROtask** was engineered to eliminate this operational "blind spot" by centralizing workforce coordination into a single, high-velocity dashboard.
+                                        When we analyzed platforms like Protask, one thing was clear:
+
+                                        Most businesses were struggling with fragmented workflows — multiple tools, scattered communication, and zero real-time visibility.
+
+                                        Teams were managing tasks via emails, spreadsheets, and chats
+                                        Deadlines were slipping due to lack of clarity
+                                        Collaboration wasn’t structured or scalable
+                                        Founders had no single source of truth for execution
                                     </p>
-                                    <p>
-                                        The goal was to build a robust, real-time ecosystem that doesn't just list tasks, but intelligently manages them. We focused on creating a platform that integrates live technician availability, automated job unassignment logic, and performance overview analytics—all delivered through a premium, glassmorphic interface that maintains clarity even during peak service hours.
-                                    </p>
+
                                 </div>
                             </div>
 
-                            {/* How It Works - New Section */}
-                            <div className="max-w-5xl mx-auto space-y-12 px-4">
-                                {/* Header */}
-                                <div className="text-center">
-                                    <h3 className="text-3xl font-bold text-black">How It Works</h3>
-                                    <p className="text-gray-500 mt-2">Your journey, simplified in four easy steps.</p>
+                            <div className="space-y-2">
+                                <h3 className="text-3xl font-bold text-slate-900">How BG Thub Delivered</h3>
+                                <div className="space-y-6 text-lg text-gray-500 leading-relaxed">
+                                    <p>At BG Thub, we didn’t just build a tool — we built a complete execution ecosystem across both web and mobile.</p>
+                                    <p>
+                                        Our approach was simple but powerful:
+
+                                        Unified Platform
+                                        Everything — tasks, communication, files, and tracking — lives in one place
+                                        Real-Time Collaboration Engine
+                                        Teams can assign, track, and update tasks instantly without switching tools
+                                        Scalable Architecture
+                                        Designed for startups → enterprises, ensuring performance at scale
+                                        Mobile-First Execution
+                                        Because modern teams don’t work from desks — they work from anywhere
+                                        Customization Layer
+                                        Unlike rigid tools, we built flexibility into workflows so businesses don’t need to adapt to software — the software adapts to them
+                                    </p>
+
                                 </div>
+                            </div>
 
-                                {/* Two-Column Grid */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                    {[
-                                        { title: "Enter Destination", desc: "Enter destination and choose vehicle type." },
-                                        { title: "Compare Prices", desc: "RideXe compares prices and availability instantly." },
-                                        { title: "AI Suggestions", desc: "AI suggests events, places, and travel plans." },
-                                        { title: "Book & Explore", desc: "Book your ride and explore with confidence." }
-                                    ].map((step, index) => (
-                                        <div
-                                            key={index}
-                                            className="group flex flex-col justify-center space-y-4 p-10 rounded-3xl border border-gray-100 bg-white hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300"
-                                        >
-                                            <div className="flex items-center justify-between">
-                                                <span className="text-xs font-black tracking-[0.2em] text-blue-600 uppercase">
-                                                    Step 0{index + 1}
-                                                </span>
-                                                {/* Optional: Add a subtle icon or circle here for extra flair */}
-                                                <div className="h-1 w-12 bg-gray-100 group-hover:bg-blue-100 transition-colors duration-300 rounded-full" />
-                                            </div>
+                            <div className="space-y-2">
+                                <h3 className="text-3xl font-bold text-slate-900"> <div className="space-y-8">
+                                    <h3 className="text-3xl font-bold text-slate-900">Why BG Thub</h3>
 
-                                            <h4 className="text-2xl font-bold text-gray-900">{step.title}</h4>
-                                            <p className="text-gray-500 leading-relaxed text-base">
-                                                {step.desc}
-                                            </p>
-                                        </div>
-                                    ))}
+                                </div></h3>
+                                <div className="space-y-6 text-lg text-gray-500 leading-relaxed">
+                                    <p>At BG Thub, we didn’t just build a tool — we built a complete execution ecosystem across both web and mobile.</p>
+                                    <p>
+                                        Our approach was simple but powerful:
+
+                                        Unified Platform
+                                        Everything — tasks, communication, files, and tracking — lives in one place
+                                        Real-Time Collaboration Engine
+                                        Teams can assign, track, and update tasks instantly without switching tools
+                                        Scalable Architecture
+                                        Designed for startups → enterprises, ensuring performance at scale
+                                        Mobile-First Execution
+                                        Because modern teams don’t work from desks — they work from anywhere
+                                        Customization Layer
+                                        Unlike rigid tools, we built flexibility into workflows so businesses don’t need to adapt to software — the software adapts to them
+                                    </p>
+
+                                </div>
+                            </div>
+
+
+                            <div className="space-y-2">
+                                <h3 className="text-3xl font-bold text-slate-900"> <div className="space-y-8">
+                                    <h3 className="text-3xl font-bold text-slate-900">What This Project Proves</h3>
+
+                                </div></h3>
+                                <div className="space-y-6 text-lg text-gray-500 leading-relaxed">
+                                    <p>This project is more than just a delivery — it’s proof of capability:</p>
+                                    <p>
+                                        BG Thub can build SaaS-grade platforms (web + mobile) from scratch
+                                        We understand real business problems, not just technical requirements
+                                        We can compete with — and improve upon — existing global tools
+                                        Most importantly, we can turn an idea into a scalable, revenue-ready product
+                                    </p>
+
                                 </div>
                             </div>
 
@@ -283,71 +363,68 @@ const ProtaskLandingPage = () => {
                         </div>
                     </div>
 
-                    {/* RIGHT COLUMN: Fixed Services */}
-                    <div className="lg:w-1/4 lg:sticky lg:top-32 space-y-12">
+                    {/* RIGHT COLUMN: Slimmer Services & CTA (20%) */}
+                    <div className="lg:w-[20%] lg:sticky lg:top-32 space-y-8">
+                        {/* Services Section */}
                         <div>
-                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-6">Services Offered</p>
-                            <ul className="space-y-4 text-sm font-semibold text-slate-900 mb-10">
-                                <li className="flex items-center gap-2">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                    Web Development
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                    App Development
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                    Landing Page
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                    UI/UX Design
-                                </li>
+                            <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-gray-400 mb-2">
+                                Services Offered
+                            </p>
+                            <div className="h-[1px] w-full bg-gray-100 mb-6" />
+                            <ul className="space-y-4 text-[18px] font-semibold text-slate-900">
+                                {['Web Development', 'Landing Page', 'UI/UX'].map((service) => (
+                                    <li key={service} className="hover:text-[#00C752] transition-colors cursor-default">
+                                        {service}
+                                    </li>
+                                ))}
                             </ul>
+                        </div>
 
-                            {/* Brand Link Section */}
-                            <div className="space-y-4">
-                                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Launch</p>
-                                <a
-                                    href="https://protask.in"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center justify-between w-full px-5 py-4 bg-slate-900 text-white rounded-2xl font-bold group hover:bg-[#00C752] transition-all duration-300 shadow-lg shadow-slate-200"
-                                >
-                                    <span>protask.in</span>
-                                    <div className="bg-white/10 rounded-lg p-1 group-hover:bg-black/20 transition-colors">
-                                        <ArrowUpRight size={18} />
-                                    </div>
-                                </a>
+                        {/* Social Media Action Bar */}
+                        <div className="flex items-center gap-3 w-fit bg-[#F5F5F5] px-4 py-2.5 rounded-xl border border-gray-200">
+                            {/* Link Icon - Using the alias 'LinkIcon' */}
+                            <a href="#" className="text-black hover:opacity-60 transition-opacity">
+                                <LinkIcon size={18} strokeWidth={2.5} />
+                            </a>
+
+                            <div className="w-[1px] h-5 bg-gray-300 mx-1" />
+
+                            {/* Navigation Arrows */}
+                            <div className="flex items-center gap-3">
+                                <MoveLeft size={18} strokeWidth={2.5} className="cursor-pointer text-black hover:-translate-x-1 transition-transform" />
+                                <MoveRight size={18} strokeWidth={2.5} className="cursor-pointer text-black hover:translate-x-1 transition-transform" />
                             </div>
 
-                            <div className="mt-12 space-y-6">
-                                <div>
-                                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-4">Connect</p>
-                                    <div className="flex items-center gap-4 text-slate-400 bg-gray-50 p-4 rounded-2xl border border-gray-100 mb-6">
-                                        <Twitter size={16} className="cursor-pointer hover:text-sky-500 transition-colors" />
-                                        <Linkedin size={16} className="cursor-pointer hover:text-emerald-700 transition-colors" />
-                                        <Facebook size={16} className="cursor-pointer hover:text-emerald-800 transition-colors" />
-                                    </div>
-                                </div>
+                            <div className="w-[1px] h-5 bg-gray-300 mx-1" />
 
-                                {/* Explicit View Website Button */}
-                                <a
-                                    href="https://protask.in"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl border-2 border-slate-900 text-slate-900 font-black text-sm uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all duration-300 active:scale-95"
-                                >
-                                    View Website
-                                    <ArrowUpRight size={16} />
-                                </a>
+                            {/* Social Icons with actual links */}
+                            <div className="flex items-center gap-4 px-2">
+                                {shareLinks.map((link) => (
+                                    <div key={link.name} className="relative group flex flex-col items-center">
+                                        <a
+                                            href={link.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-black hover:scale-110 transition-transform"
+                                        >
+                                            {link.icon}
+                                        </a>
+
+                                        {/* Tooltip Box */}
+                                        <div className="absolute bottom-full mb-3 hidden group-hover:flex flex-col items-center">
+                                            <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-nowrap bg-black shadow-lg rounded-md">
+                                                Share on {link.name}
+                                            </span>
+                                            {/* Little triangle arrow */}
+                                            <div className="w-3 h-3 -mt-2 rotate-45 bg-black"></div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-
             <Footer />
         </div>
     );

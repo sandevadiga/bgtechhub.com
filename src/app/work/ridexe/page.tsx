@@ -1,18 +1,33 @@
 "use client"
 
-import React from 'react';
+import React, { useState } from 'react';
+
+
 import {
-    Link as LinkIcon,
+    ArrowUpRight,
+    ClipboardList,
+    Home,
+    LayoutDashboard,
+    LinkIcon,
+    LogOut,
+    Link as LucideLinkIcon,
+    Menu,
+    MessageCircle,
+    MoreHorizontal,
     MoveLeft,
     MoveRight,
-    MessageCircle,
-    ArrowUpRight,
-    UserCircle2,
-    Home,
+    MoveLeft as NavLeft,
+    MoveRight as NavRight,
     Search,
+    Share2,
     Ticket,
-    Tv2
+    Tv2,
+    User,
+    UserCircle2,
+    Users,
+    X
 } from 'lucide-react';
+import Link from 'next/link';
 import {
     FaTwitter as Twitter,
     FaLinkedin as Linkedin,
@@ -25,7 +40,17 @@ import SocialFlipButton from "@/components/ui/social-flip-button";
 
 const RidexeLandingPage = () => {
 
+    const shareLinks = [
+        { name: 'X', icon: <Twitter size={18} fill="currentColor" />, url: 'https://twitter.com' },
+        { name: 'LinkedIn', icon: <Linkedin size={18} fill="currentColor" />, url: 'https://linkedin.com' },
+        { name: 'WhatsApp', icon: <MessageCircle size={18} />, url: 'https://wa.me/yournumber' },
+        { name: 'Facebook', icon: <Facebook size={18} fill="currentColor" />, url: 'https://facebook.com' },
+        { name: 'Reddit', icon: <Share2 size={18} />, url: 'https://reddit.com' }
+    ];
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const router = useRouter();
+
 
     const handleBookingClick = () => {
         // Navigates to the route matching your file structure
@@ -34,42 +59,62 @@ const RidexeLandingPage = () => {
     return (
         <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-emerald-100">
             {/* Navigation */}
-            <nav className="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
-                <div className="flex items-center gap-2 group cursor-pointer">
-                    <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center transition-transform group-hover:rotate-12">
-                        <span className="text-white font-bold text-2xl">R</span>
+            <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+                <div className="flex items-center justify-between px-6 py-3 max-w-7xl mx-auto">
+
+                    <div className="flex-1 flex justify-start items-center">
+                        <Link href="/">
+                            <img src="/assets/images/logo.png" alt="Logo" className="h-8 md:h-9 w-auto cursor-pointer" />
+                        </Link>
                     </div>
-                    <span className="text-2xl font-bold tracking-tight">Ridexe</span>
+
+
+                    {/* Desktop Navigation Links */}
+                    <div className="hidden md:flex items-center bg-gray-50/50 rounded-full px-6 py-2 border border-gray-100 gap-6">
+                        {['About', 'Services', 'Our Work', 'Academy', 'Contact'].map((item) => (
+                            <a key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} className="text-sm font-semibold text-gray-600 hover:text-emerald-600 transition-colors">
+                                {item}
+                            </a>
+                        ))}
+                    </div>
+
+                    {/* Action Button - Reduced padding/text size */}
+                    <div className="flex items-center gap-4">
+                        <button
+                            onClick={handleBookingClick}
+                            className="group relative bg-[#0f0f0f] text-white px-5 py-2.5 rounded-full hidden sm:flex items-center gap-3 transition-all duration-500 hover:shadow-[0_10px_20px_-5px_rgba(0,199,82,0.3)] hover:-translate-y-0.5 active:scale-95"
+                        >
+                            <span className="font-bold text-[10px] uppercase tracking-[0.15em] relative z-10">
+                                Book a call
+                            </span>
+                            <span className="relative z-10 bg-white/5 border border-white/10 rounded-full p-1.5 group-hover:bg-[#00C752] transition-all duration-500">
+                                <ArrowUpRight size={14} className="group-hover:rotate-45 transition-transform" />
+                            </span>
+                        </button>
+
+                        {/* Mobile Menu Toggle */}
+                        <button
+                            className="md:hidden p-2 text-gray-600"
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        >
+                            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                        </button>
+                    </div>
                 </div>
 
-                <div className="hidden md:flex items-center bg-gray-50/80 backdrop-blur-md rounded-full px-8 py-3 shadow-sm border border-gray-100 gap-8">
-                    {['About', 'Services', 'Our Work', 'Academy', 'Contact'].map((item) => (
-                        <a key={item} href="#" className="text-sm font-semibold text-gray-600 hover:text-emerald-600 transition-colors">
-                            {item}
-                        </a>
-                    ))}
-                </div>
-
-                <button
-                    onClick={handleBookingClick}
-                    className="group relative bg-[#0f0f0f] text-white px-8 py-4 rounded-full flex items-center gap-4 transition-all duration-500 hover:shadow-[0_15px_30px_-10px_rgba(0,199,82,0.3)] hover:-translate-y-0.5 active:scale-95"
-                >
-                    {/* Button Text */}
-                    <span className="font-bold text-sm uppercase tracking-[0.15em] relative z-10">
-                        Book a call
-                    </span>
-
-                    {/* Icon Container */}
-                    <span className="relative z-10 bg-white/5 border border-white/10 rounded-full p-2 group-hover:bg-[#00C752] group-hover:border-[#00C752] transition-all duration-500 ease-out">
-                        <ArrowUpRight
-                            size={16}
-                            className="group-hover:rotate-45 transition-transform duration-500"
-                        />
-                    </span>
-
-                    {/* Subtle Background Glow on Hover */}
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#00C752]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                </button>
+                {/* Mobile Dropdown Menu */}
+                {isMenuOpen && (
+                    <div className="md:hidden bg-white border-b border-gray-100 px-6 py-4 flex flex-col gap-4 animate-in slide-in-from-top duration-300">
+                        {['About', 'Services', 'Our Work', 'Academy', 'Contact'].map((item) => (
+                            <a key={item} href="#" className="text-sm font-bold text-gray-700 hover:text-emerald-600">
+                                {item}
+                            </a>
+                        ))}
+                        <button className="bg-emerald-600 text-white py-3 rounded-xl font-bold text-xs uppercase">
+                            Book a call
+                        </button>
+                    </div>
+                )}
             </nav>
 
             {/* Hero Section */}
@@ -79,7 +124,7 @@ const RidexeLandingPage = () => {
                     {/* Left Content */}
                     <div className="flex-1 space-y-10">
                         <div className="flex items-center gap-2 text-sm">
-                            <span className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full font-bold uppercase tracking-wider text-[10px]">
+                            <span className="border border-emerald-100 bg-transparent text-emerald-700 hover:bg-emerald-200 hover:text-black px-3 py-1 rounded-full font-bold uppercase tracking-wider text-[10px] transition-colors duration-300 cursor-default">
                                 Our Work
                             </span>
                             <span className="text-gray-300 font-light">/</span>
@@ -88,12 +133,22 @@ const RidexeLandingPage = () => {
                             </span>
                         </div>
 
+                        <div className="flex items-center gap-2 group cursor-pointer -mb-2">
+                            <div className="w-20 h-20 bg-emerald-600 rounded-xl flex items-center justify-center overflow-hidden transition-transform group-hover:rotate-12">
+                                <img
+                                    src="/assets/images/ridexe1.png"
+                                    alt="Ridexe Logo"
+                                    className="w-full h-full object-contain"
+                                />
+                            </div>
+                        </div>
+
                         <div className="space-y-6">
-                            <h1 className="text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight text-slate-900">
+                            <p className="text-3xl md:text-4xl font-bold leading-[1.05] tracking-tight text-slate-900">
                                 One App.<br />
                                 <span className="text-emerald-600 italic">Every Ride.</span><br />
                                 Every Journey.
-                            </h1>
+                            </p>
                             <p className="text-lg md:text-xl text-gray-500 leading-relaxed max-w-lg">
                                 Compare taxi prices, discover live events, plan trips with AI,
                                 and explore cities — all in one smart travel app.
@@ -101,21 +156,6 @@ const RidexeLandingPage = () => {
                         </div>
 
                         {/* Speaker/CEO Section */}
-                        <div className="space-y-4">
-                            <p className="text-sm font-bold uppercase tracking-widest text-gray-400">A conversation with:</p>
-                            <div className="flex items-center gap-4">
-                                <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900 p-[2px]">
-                                    <div className="w-full h-full bg-slate-200 rounded-[14px] flex items-center justify-center overflow-hidden">
-                                        <div className="w-full h-full bg-[#1e293b] flex items-end justify-center">
-                                            <div className="w-8 h-8 rounded-full bg-slate-500 mb-[-4px]" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 className="font-bold text-xl text-slate-900">Pavan Kumar</h4>
-                                </div>
-                            </div>
-                        </div>
 
                         <div className="pt-6">
                             <SocialFlipButton />
@@ -123,8 +163,8 @@ const RidexeLandingPage = () => {
                     </div>
 
                     {/* Right Mobile Profile Section */}
-                    <div className="flex-1 w-full lg:max-w-[400px] flex justify-center lg:justify-end">
-                        <div className="relative w-[320px] h-[640px] bg-white rounded-[40px] shadow-[0_40px_80px_-15px_rgba(16,185,129,0.15)] overflow-hidden border-[10px] border-slate-900">
+                    <div className="flex-1 w-full lg:max-w-[400px] flex justify-center lg:justify-end mt-16">
+                        <div className="relative w-[320px] h-[540px] bg-white rounded-[40px] shadow-[0_40px_80px_-15px_rgba(16,185,129,0.15)] overflow-hidden border-[10px] border-slate-900">
 
                             {/* Top Notch Area */}
                             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-slate-900 rounded-b-2xl z-20" />
@@ -213,135 +253,165 @@ const RidexeLandingPage = () => {
                 <div className="flex flex-col lg:flex-row gap-16 items-start relative">
 
                     {/* LEFT COLUMN: Fixed About */}
-                    <div className="lg:w-1/4 lg:sticky lg:top-32 space-y-12">
+                    <div className="lg:w-1/4 lg:sticky lg:top-32 space-y-6">
                         <div>
-                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-4">About</p>
-                            <h3 className="text-2xl font-bold mb-2 flex items-center gap-2">
-                                Ridexe <LinkIcon size={16} className="text-gray-300" />
-                            </h3>
+                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-4">
+                                About
+                            </p>
+
+                            <hr className="border-gray-200" />
+
+
+                            <a
+                                href="https://ridexe.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block hover:opacity-80 transition-opacity w-fit"
+                            >
+                                <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
+                                    Ridexe <LinkIcon size={16} className="text-gray-300" />
+                                </h3>
+                            </a>
+
                             <p className="text-sm text-gray-500 leading-relaxed">
                                 Ridexe is India's premier smart mobility aggregator, centralizing transport comparison,
                                 local events, and AI-driven trip planning into one seamless ecosystem.
                             </p>
+
+                            <hr className="border-gray-200" />
                         </div>
                         <div>
-                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-4">HQ</p>
-                            <p className="text-sm text-slate-900 font-semibold">Hyderabad, India</p>
+                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">HQ</p>
+                            <p className="text-sm text-slate-900 font-semibold">Karnataka Bangalore, India</p>
                         </div>
                         <div>
                             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-4">Industry</p>
-                            <p className="text-sm text-slate-900 font-semibold">Travel Tech & Smart Mobility</p>
+                            <p className="text-sm text-slate-900 font-semibold">IT Industry</p>
                         </div>
                     </div>
 
                     {/* MIDDLE COLUMN: Scrolling Content */}
-                    <div className="lg:w-2/4 space-y-16">
-                        <div className="space-y-12">
-                            <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+                    <div className="lg:w-2/4 space-y-12">
+                        <div className="space-y-10">
+                            {/* Top Tagline / Eyebrow Header */}
+                            <h2 className="text-xs md:text-sm font-semibold uppercase tracking-widest text-gray-400 leading-tight">
                                 "One App. Every Ride. Every Journey: Setting the New Standard for Indian Smart Travel"
                             </h2>
+
                             <div className="w-full h-px bg-gray-100" />
 
                             {/* The Challenge */}
-                            <div className="space-y-8">
-                                <h3 className="text-3xl font-bold">The Challenge</h3>
-                                <div className="space-y-6 text-lg text-gray-500 leading-relaxed">
-                                    <p>
-                                        The travel industry in India was fragmented, forcing users to jump between multiple apps to compare cab prices, check schedules, and discover local events. RideXe was envisioned to solve this "app fatigue."
-                                    </p>
-                                    <p>
-                                        The goal was to build a smart, all-in-one travel ecosystem. A platform that doesn't just compare taxi fares in real-time, but also integrates AI-driven trip planning, live event discovery, and immersive travel vlogs—all delivered through a premium, glassmorphic interface that feels as smooth as the journey itself.
-                                    </p>
+                            <div className="space-y-2">
+                                <h3 className="text-xl md:text-2xl font-bold text-gray-900">The Challenge</h3>
+                                <div className="space-y-2 text-base text-gray-500 leading-relaxed">
+                                    <p>Teams were managing tasks via emails, spreadsheets, and chats</p>
+                                    <p>Deadlines were slipping due to lack of clarity</p>
+                                    <p>Collaboration wasn’t structured or scalable</p>
+                                    <p>Founders had no single source of truth for execution</p>
                                 </div>
                             </div>
 
-                            {/* How It Works - New Section */}
-                            <div className="max-w-5xl mx-auto space-y-12 px-4">
-                                {/* Header */}
-                                <div className="text-center">
-                                    <h3 className="text-3xl font-bold text-black">How It Works</h3>
-                                    <p className="text-gray-500 mt-2">Your journey, simplified in four easy steps.</p>
-                                </div>
-
-                                {/* Two-Column Grid */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                    {[
-                                        { title: "Enter Destination", desc: "Enter destination and choose vehicle type." },
-                                        { title: "Compare Prices", desc: "RideXe compares prices and availability instantly." },
-                                        { title: "AI Suggestions", desc: "AI suggests events, places, and travel plans." },
-                                        { title: "Book & Explore", desc: "Book your ride and explore with confidence." }
-                                    ].map((step, index) => (
-                                        <div
-                                            key={index}
-                                            className="group flex flex-col justify-center space-y-4 p-10 rounded-3xl border border-gray-100 bg-white hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300"
-                                        >
-                                            <div className="flex items-center justify-between">
-                                                <span className="text-xs font-black tracking-[0.2em] text-blue-600 uppercase">
-                                                    Step 0{index + 1}
-                                                </span>
-                                                {/* Optional: Add a subtle icon or circle here for extra flair */}
-                                                <div className="h-1 w-12 bg-gray-100 group-hover:bg-blue-100 transition-colors duration-300 rounded-full" />
-                                            </div>
-
-                                            <h4 className="text-2xl font-bold text-gray-900">{step.title}</h4>
-                                            <p className="text-gray-500 leading-relaxed text-base">
-                                                {step.desc}
-                                            </p>
-                                        </div>
-                                    ))}
+                            {/* How BG Thub Delivered */}
+                            <div className="space-y-2">
+                                <h3 className="text-xl md:text-2xl font-bold text-gray-900">How BG Thub Delivered</h3>
+                                <div className="space-y-2 text-base text-gray-500 leading-relaxed">
+                                    <p><strong>Unified Platform:</strong> Everything — tasks, communication, files, and tracking — lives in one place</p>
+                                    <p><strong>Real-Time Collaboration Engine:</strong> Teams can assign, track, and update tasks instantly without switching tools</p>
+                                    <p><strong>Scalable Architecture:</strong> Designed for startups → enterprises, ensuring performance at scale</p>
+                                    <p><strong>Mobile-First Execution:</strong> Because modern teams don’t work from desks — they work from anywhere</p>
+                                    <p><strong>Customization Layer:</strong> Unlike rigid tools, we built flexibility into workflows so software adapts to businesses</p>
                                 </div>
                             </div>
 
+                            {/* Why BG Thub */}
+                            <div className="space-y-2">
+                                <h3 className="text-xl md:text-2xl font-bold text-gray-900">Why BG Thub</h3>
+                                <div className="space-y-2 text-base text-gray-500 leading-relaxed">
+                                    <p>What sets BG Thub apart is not development — it’s ownership of outcomes</p>
+                                    <p>We don’t build “features” → we build business solutions</p>
+                                    <p>We focus on ROI, scalability, and long-term impact</p>
+                                    <p>We combine product thinking + execution speed</p>
+                                </div>
+                            </div>
 
-
-
+                            {/* What This Project Proves */}
+                            <div className="space-y-2">
+                                <h3 className="text-xl md:text-2xl font-bold text-gray-900">What This Project Proves</h3>
+                                <div className="space-y-2 text-base text-gray-500 leading-relaxed">
+                                    <p>BG Thub can build SaaS-grade platforms (web + mobile) from scratch</p>
+                                    <p>We understand real business problems, not just technical requirements</p>
+                                    <p>We can compete with — and improve upon — existing global tools</p>
+                                    <p>Most importantly, we can turn an idea into a scalable, revenue-ready product</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     {/* RIGHT COLUMN: Fixed Services */}
                     <div className="lg:w-1/4 lg:sticky lg:top-32 space-y-12">
                         <div>
-                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-6">Services Offered</p>
-                            <ul className="space-y-4 text-sm font-semibold text-slate-900 mb-10">
-                                <li className="flex items-center gap-2">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                    Web Development
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                    App Development
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                    Landing Page
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                    UI/UX Design
-                                </li>
-                            </ul>
+                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-2">Services Offered</p>
 
-                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-4">Connect</p>
-                            <div className="flex items-center gap-4 text-slate-400 bg-gray-50 p-4 rounded-2xl border border-gray-100 mb-10">
-                                <Twitter size={16} className="cursor-pointer hover:text-sky-500 transition-colors" />
-                                <Linkedin size={16} className="cursor-pointer hover:text-emerald-700 transition-colors" />
-                                <Facebook size={16} className="cursor-pointer hover:text-emerald-800 transition-colors" />
+
+                            <div className="lg:w-[60%] lg:sticky lg:top-32 space-y-8">
+                                {/* Services Section */}
+                                <div>
+
+                                    <div className="h-[1px] w-full bg-gray-100 mb-6" />
+                                    <ul className="space-y-4 text-[18px] font-semibold text-slate-900">
+                                        {['Web Development', 'Landing Page', 'UI/UX'].map((service) => (
+                                            <li key={service} className="hover:text-[#00C752] transition-colors cursor-default">
+                                                {service}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+
+                                {/* Social Media Action Bar */}
+                                <div className="flex items-center gap-3 w-fit bg-[#F5F5F5] px-4 py-2.5 rounded-xl border border-gray-200">
+                                    {/* Link Icon - Using the alias 'LinkIcon' */}
+                                    <a href="#" className="text-black hover:opacity-60 transition-opacity">
+                                        <LinkIcon size={18} strokeWidth={2.5} />
+                                    </a>
+
+                                    <div className="w-[1px] h-5 bg-gray-300 mx-1" />
+
+                                    {/* Navigation Arrows */}
+                                    <div className="flex items-center gap-3">
+                                        <MoveLeft size={18} strokeWidth={2.5} className="cursor-pointer text-black hover:-translate-x-1 transition-transform" />
+                                        <MoveRight size={18} strokeWidth={2.5} className="cursor-pointer text-black hover:translate-x-1 transition-transform" />
+                                    </div>
+
+                                    <div className="w-[1px] h-5 bg-gray-300 mx-1" />
+
+                                    {/* Social Icons with actual links */}
+                                    <div className="flex items-center gap-4 px-2">
+                                        {shareLinks.map((link) => (
+                                            <div key={link.name} className="relative group flex flex-col items-center">
+                                                <a
+                                                    href={link.url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-black hover:scale-110 transition-transform"
+                                                >
+                                                    {link.icon}
+                                                </a>
+
+                                                {/* Tooltip Box */}
+                                                <div className="absolute bottom-full mb-3 hidden group-hover:flex flex-col items-center">
+                                                    <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-nowrap bg-black shadow-lg rounded-md">
+                                                        Share on {link.name}
+                                                    </span>
+                                                    {/* Little triangle arrow */}
+                                                    <div className="w-3 h-3 -mt-2 rotate-45 bg-black"></div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
 
-                            {/* RideXe Featured Project */}
-                            <div className="space-y-4">
-                                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Featured Platform</p>
 
-                                <a
-                                    href="https://ridexe.com"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl border-2 border-slate-900 text-slate-900 font-black text-sm uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all duration-300 active:scale-95"
-                                >
-                                    View Website
-                                    <ArrowUpRight size={16} />
-                                </a>
-                            </div>
                         </div>
                     </div>
 

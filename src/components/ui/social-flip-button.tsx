@@ -25,8 +25,8 @@ const SocialFlipButton = () => {
                     className="absolute inset-0 flex items-center justify-center rounded-xl border border-white/10 bg-[#0a0a0a] text-white transition-colors duration-500 hover:border-emerald-500/30"
                     style={{ backfaceVisibility: "hidden" }}
                 >
-                    <span className="text-[9px] font-black uppercase tracking-[0.2em]">
-                        Stay Connected
+                    <span className="text-[14px] font-black uppercase tracking-[0.2em]">
+                        Contact
                     </span>
                 </div>
 
@@ -39,10 +39,35 @@ const SocialFlipButton = () => {
                     }}
                 >
                     <div className="flex items-center gap-4">
-                        <FaTwitter className="cursor-pointer transition-transform duration-300 hover:scale-125 hover:rotate-12" size={14} />
-                        <FaLinkedinIn className="cursor-pointer transition-transform duration-300 hover:scale-125 hover:-rotate-12" size={14} />
+                        {/* Twitter / X */}
                         <a
-                            href="https://www.instagram.com/bg_thub?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                            href="https://twitter.com/your-profile"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block"
+                        >
+                            <FaTwitter
+                                className="cursor-pointer transition-transform duration-300 hover:scale-125 hover:rotate-12"
+                                size={14}
+                            />
+                        </a>
+
+                        {/* LinkedIn */}
+                        <a
+                            href="https://linkedin.com/in/your-profile"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block"
+                        >
+                            <FaLinkedinIn
+                                className="cursor-pointer transition-transform duration-300 hover:scale-125 hover:-rotate-12"
+                                size={14}
+                            />
+                        </a>
+
+                        {/* Instagram */}
+                        <a
+                            href="https://www.instagram.com"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-block"
@@ -52,7 +77,19 @@ const SocialFlipButton = () => {
                                 size={14}
                             />
                         </a>
-                        <FaGithub className="cursor-pointer transition-transform duration-300 hover:scale-125 hover:-rotate-12" size={14} />
+
+                        {/* GitHub */}
+                        <a
+                            href="https://github.com/your-profile"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block"
+                        >
+                            <FaGithub
+                                className="cursor-pointer transition-transform duration-300 hover:scale-125 hover:-rotate-12"
+                                size={14}
+                            />
+                        </a>
                     </div>
                 </div>
             </motion.div>

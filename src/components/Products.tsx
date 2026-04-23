@@ -17,6 +17,14 @@ const products = [
     logo: "/assets/images/protask.png",
     slug: "protask", // Assuming you'll have a folder for this too
 
+  },
+
+  {
+    id: "logi growth-unique-03",
+    name: "LogiGrowth",
+    logo: "/assets/images/logigrowth1.png",
+    slug: "logigrowth", // Assuming you'll have a folder for this too
+
   }
 ];
 
@@ -45,7 +53,7 @@ export default function Products() {
         </motion.div>
 
         {/* PRODUCTS GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           {products.map((p, index) => (
             // Wrap the card in a Link component
             <Link key={p.id} href={`/work/${p.slug}`}>
@@ -61,7 +69,7 @@ export default function Products() {
                   <div className="w-32 h-32 mx-auto mb-8 bg-white rounded-3xl p-4 shadow-sm border border-slate-50 group-hover:scale-110 transition-transform duration-500">
                     <img src={p.logo} alt={p.name} className="w-full h-full object-contain" />
                   </div>
-                  <h3 className="text-4xl font-black text-slate-900 tracking-tighter mb-4">{p.name}</h3>
+                  <h3 className="text-2xl font-black text-slate-900 tracking-tighter mb-4">{p.name}</h3>
                   <div className="inline-flex items-center gap-2 text-[10px] font-black text-emerald-600 uppercase tracking-[0.3em] opacity-60 group-hover:opacity-100 transition-opacity">
                     Visit Project <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
                   </div>

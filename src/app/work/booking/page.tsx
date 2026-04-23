@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     FaCalendarCheck, FaChevronDown, FaChevronLeft,
@@ -8,6 +8,245 @@ import {
     FaArrowRight
 } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
+
+// ─── BookingForm Sub-Component ───────────────────────────────────────────────
+function BookingForm({
+    setStep,
+    options,
+    services,
+    budgetOptions,
+    selectedDate,
+    selectedTime
+}: {
+    setStep: (n: number) => void;
+    options: string[];
+    services: string[];
+    budgetOptions: string[];
+    selectedDate: Date;
+    selectedTime: string;
+}) {
+    const [isLoading, setIsLoading] = useState(false);
+    const [formData, setFormData] = useState({
+        fullName: "",
+        workEmail: "",
+        phoneNumber: "",
+        guests: "",
+        serviceInterest: "",
+        vision: "",
+        specificService: "Full-stack Web Dev",
+        projectStatus: "Concept / Idea",
+    });
+
+    const [selected, setSelected] = useState("");
+    const [selectedService, setSelectedService] = useState("");
+    const [selectedBudget, setSelectedBudget] = useState("");
+
+    const [isHearOpen, setIsHearOpen] = useState(false);
+    const [isServicesOpen, setIsServicesOpen] = useState(false);
+    const [isBudgetOpen, setIsBudgetOpen] = useState(false);
+
+    const hearRef = useRef<HTMLDivElement>(null);
+    const servicesRef = useRef<HTMLDivElement>(null);
+    const budgetRef = useRef<HTMLDivElement>(null);
+
+    const inp = "w-full text-slate-900 placeholder:text-slate-400";
+
+    useEffect(() => {
+        const handler = (e: MouseEvent) => {
+            if (hearRef.current && !hearRef.current.contains(e.target as Node)) setIsHearOpen(false);
+            if (servicesRef.current && !servicesRef.current.contains(e.target as Node)) setIsServicesOpen(false);
+            if (budgetRef.current && !budgetRef.current.contains(e.target as Node)) setIsBudgetOpen(false);
+        };
+        document.addEventListener("mousedown", handler);
+        return () => document.removeEventListener("mousedown", handler);
+    }, []);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        // This formats the date to 'YYYY-MM-DD' or 'Month Day, Year' 
+        // to avoid ISO/UTC conversion issues.
+        const dateOnly = selectedDate.toLocaleDateString('en-CA'); // Outputs: YYYY-MM-DD
+
+
+
+        const payload = {
+            // 1. Spread formData first
+            ...formData,
+
+            // 2. Explicitly override or add the custom state values
+            source: selected,
+            serviceInterest: selectedService || formData.serviceInterest,
+            budget: selectedBudget, // This ensures the dropdown value is used
+            selectedDate: dateOnly,
+            selectedTime: selectedTime,
+        };
+
+        try {
+            const res = await fetch("/api/contact/bookings", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+
+            if (res.ok) {
+                setStep(3);
+            } else {
+                const err = await res.json();
+                alert(`Error: ${err.details || "Failed to submit"}`);
+            }
+        } catch (err) {
+            console.error("Submission Error:", err);
+            alert("Network error. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const dropdownBase = "w-full border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 transition-all duration-500 outline-none flex justify-between items-center text-left";
+    const dropdownMenu = "absolute z-50 w-full mt-2 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden py-2 animate-in fade-in zoom-in-95 duration-200";
+    const dropdownItem = "w-full text-left px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#00C752] transition-colors";
+
+    return (
+        <form className="space-y-12 pb-24" onSubmit={handleSubmit}>
+            {/* Personal & Contact Info */}
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-10">
+                <div className="group space-y-3">
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] transition-colors ml-1">Full Name *</label>
+                    <input name="fullName" value={formData.fullName} onChange={handleInputChange} required className={`${inp} border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 transition-all duration-500 outline-none`} placeholder="E.g. Elon Musk" />
+                </div>
+                <div className="group space-y-3">
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] transition-colors ml-1">Work Email *</label>
+                    <input name="workEmail" value={formData.workEmail} onChange={handleInputChange} required type="email" className={`${inp} border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 transition-all duration-500 outline-none`} placeholder="name@company.com" />
+                </div>
+                <div className="group space-y-3">
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] transition-colors ml-1">Phone Number *</label>
+                    <input name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} required type="tel" className={`${inp} border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 transition-all duration-500 outline-none`} placeholder="+91 00000 00000" />
+                </div>
+                <div className="group space-y-3">
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] transition-colors ml-1">Add Guests</label>
+                    <input name="guests" value={formData.guests} onChange={handleInputChange} className={`${inp} border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 transition-all duration-500 outline-none`} placeholder="Optional: colleague@company.com" />
+                </div>
+                <div className="group space-y-3">
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] transition-colors ml-1">What kind of service are you looking for?</label>
+                    <input name="serviceInterest" value={formData.serviceInterest} onChange={handleInputChange} className={`${inp} border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 transition-all duration-500 outline-none`} placeholder="E.g. Web Dev, AI, Automation..." />
+                </div>
+
+                {/* How did you hear */}
+                <div className="group space-y-3 relative" ref={hearRef}>
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] transition-colors ml-1">How did you hear about BGTHUB?</label>
+                    <div className="relative">
+                        <button type="button" onClick={() => setIsHearOpen(!isHearOpen)} className={dropdownBase}>
+                            <span className={selected ? "text-slate-900" : "text-slate-400"}>{selected || "Select an option"}</span>
+                            <FaChevronDown className={`w-3 h-3 transition-transform duration-300 ${isHearOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                        {isHearOpen && (
+                            <div className={dropdownMenu}>
+                                {options.map((o) => <button key={o} type="button" onClick={() => { setSelected(o); setIsHearOpen(false); }} className={dropdownItem}>{o}</button>)}
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Which services */}
+                <div className="group space-y-3 relative" ref={servicesRef}>
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] transition-colors ml-1">Which Services are you interested in</label>
+                    <div className="relative">
+                        <button type="button" onClick={() => setIsServicesOpen(!isServicesOpen)} className={dropdownBase}>
+                            <span className={selectedService ? "text-slate-900 font-medium" : "text-slate-400"}>{selectedService || "Select a service"}</span>
+                            <FaChevronDown className={`w-3 h-3 transition-transform duration-300 ${isServicesOpen ? 'rotate-180 text-[#00C752]' : ''}`} />
+                        </button>
+                        {isServicesOpen && (
+                            <div className="absolute z-50 w-full mt-3 bg-white rounded-[20px] shadow-xl border border-slate-100 overflow-hidden py-3">
+                                <div className="max-h-[300px] overflow-y-auto">
+                                    {services.map((s) => <button key={s} type="button" onClick={() => { setSelectedService(s); setIsServicesOpen(false); }} className="w-[94%] mx-auto block text-left px-4 py-3 text-[15px] text-slate-600 hover:bg-slate-50 hover:text-[#00C752] rounded-xl transition-all">{s}</button>)}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Budget */}
+                <div className="group space-y-3 relative" ref={budgetRef}>
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] transition-colors ml-1">What's your approximate budget? *</label>
+                    <div className="relative">
+                        <button type="button" onClick={() => setIsBudgetOpen(!isBudgetOpen)} className={dropdownBase}>
+                            <span className={selectedBudget ? "text-slate-900" : "text-slate-400"}>{selectedBudget || "Select budget range"}</span>
+                            <FaChevronDown className={`w-3 h-3 transition-transform duration-300 ${isBudgetOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                        {isBudgetOpen && (
+                            <div className={dropdownMenu}>
+                                {budgetOptions.map((o) => <button key={o} type="button" onClick={() => { setSelectedBudget(o); setIsBudgetOpen(false); }} className={dropdownItem}>{o}</button>)}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </section>
+
+            {/* Service Required & Project Status */}
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-10 pt-4">
+                <div className="group space-y-3">
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] ml-1">Service Required *</label>
+                    <div className="relative">
+                        <select name="specificService" value={formData.specificService} onChange={handleInputChange} className={`${inp} appearance-none border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 cursor-pointer outline-none w-full`}>
+                            <option>Full-stack Web Dev</option>
+                            <option>Mobile App (React Native)</option>
+                            <option>UI/UX Design Strategy</option>
+                            <option>Lead Gen &amp; Branding</option>
+                        </select>
+                        <FaChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-slate-300" size={12} />
+                    </div>
+                </div>
+                <div className="group space-y-3">
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] ml-1">Project Status *</label>
+                    <div className="relative">
+                        <select name="projectStatus" value={formData.projectStatus} onChange={handleInputChange} className={`${inp} appearance-none border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 cursor-pointer outline-none w-full`}>
+                            <option>Concept / Idea</option>
+                            <option>Existing Business (Upgrade)</option>
+                            <option>Under Construction</option>
+                        </select>
+                        <FaChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-slate-300" size={12} />
+                    </div>
+                </div>
+            </section>
+
+            {/* Vision */}
+            <div className="group space-y-4 pt-4">
+                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] ml-1">Describe your vision *</label>
+                <textarea name="vision" value={formData.vision} onChange={handleInputChange} required rows={4} className="w-full border-2 border-slate-100 focus:border-[#00C752] rounded-2xl bg-slate-50/50 p-6 transition-all duration-500 outline-none resize-none text-slate-900 placeholder:text-slate-400" placeholder="What are we building? Tell us about your scope, challenges, and objectives..." />
+            </div>
+
+            {/* CTA */}
+            <div className="pt-12 border-t border-slate-100">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div className="flex items-start gap-3 max-w-sm">
+                        <div className="mt-1 h-2 w-2 rounded-full bg-[#00C752] animate-pulse shrink-0" />
+                        <p className="text-[11px] text-slate-400 leading-relaxed font-medium">
+                            By confirming, you agree to BGTHUB's <span className="text-slate-900 font-bold underline cursor-pointer decoration-2 decoration-[#00C752]/30">Terms</span> and <span className="text-slate-900 font-bold underline cursor-pointer decoration-2 decoration-[#00C752]/30">Privacy Policy</span>.
+                        </p>
+                    </div>
+                    <button type="submit" disabled={isLoading} className="group relative w-full md:w-auto px-10 py-4 bg-[#0a0a0a] text-white rounded-full font-black uppercase tracking-[0.2em] text-[10px] overflow-hidden transition-all duration-500 hover:shadow-[0_20px_40px_-15px_rgba(0,199,82,0.4)] hover:-translate-y-1 active:scale-95 border border-white/5 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                        <span className="relative z-10 flex items-center justify-center gap-4">
+                            <span className="group-hover:tracking-[0.3em] transition-all duration-500">{isLoading ? "Processing..." : "Confirm Booking"}</span>
+                            <div className="relative flex items-center">
+                                <div className="w-0 group-hover:w-6 h-[1px] bg-[#00C752] transition-all duration-500 ease-out" />
+                                <FaArrowRight size={10} className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-500 text-[#00C752]" />
+                            </div>
+                        </span>
+                        <div className="absolute inset-0 bg-gradient-to-tr from-[#00C752]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    </button>
+                </div>
+            </div>
+        </form>
+    );
+}
+// ─────────────────────────────────────────────────────────────────────────────
 
 export default function BookingPage() {
     const router = useRouter();
@@ -22,19 +261,37 @@ export default function BookingPage() {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const years = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() + i);
 
+    const inputClasses = "w-full p-4 bg-slate-50/50 backdrop-blur-sm rounded-2xl border border-slate-100 outline-none focus:border-[#00C752] focus:ring-4 ring-[#00C752]/10 text-sm text-slate-900 placeholder:text-slate-400 transition-all duration-300";
+
     const currentMonth = viewDate.getMonth();
     const currentYear = viewDate.getFullYear();
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+
+    const options = ["Instagram", "LinkedIn", "Website", "Others"];
+    const servicesList = [
+        "Web Development",
+        "Mobile App Development",
+        "AI/Automation",
+        "UI/UX Design",
+        "Maintenance & Support",
+        "Blockchain",
+        "Others"
+    ];
+    const budgetOptions = [
+        "$500 - $1000",
+        "$1000 - $5000",
+        "$5000 - $10000",
+        "$10000 - $50000",
+        "$50000 - $100000",
+        "$100000+"
+    ];
 
     const times = Array.from({ length: 8 }, (_, i) => {
         const hour = 10 + Math.floor(i / 2);
         const min = i % 2 === 0 ? "00" : "30";
         return `${hour > 12 ? hour - 12 : hour}:${min}${hour >= 12 ? 'pm' : 'am'}`;
     });
-
-    // Refined Apple-style input classes
-    const inputClasses = "w-full p-4 bg-slate-50/50 backdrop-blur-sm rounded-2xl border border-slate-100 outline-none focus:border-[#00C752] focus:ring-4 ring-[#00C752]/10 text-sm text-slate-900 placeholder:text-slate-400 transition-all duration-300";
 
     const handleMonthSelect = (index: number) => {
         setViewDate(new Date(currentYear, index, 1));
@@ -45,7 +302,6 @@ export default function BookingPage() {
         setViewDate(new Date(year, currentMonth, 1));
         setShowYearDropdown(false);
     };
-
 
 
     return (
@@ -243,173 +499,14 @@ export default function BookingPage() {
                                     </p>
                                 </div>
 
-                                <form className="space-y-12 pb-24" onSubmit={(e) => { e.preventDefault(); setStep(3); }}>
-                                    {/* Personal & Contact Info Grid */}
-                                    <section className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-10">
-                                        <div className="group space-y-3">
-                                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] transition-colors ml-1">
-                                                Full Name *
-                                            </label>
-                                            <input
-                                                required
-                                                className={`${inputClasses} border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 transition-all duration-500 outline-none`}
-                                                placeholder="E.g. Elon Musk"
-                                            />
-                                        </div>
-
-                                        <div className="group space-y-3">
-                                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] transition-colors ml-1">
-                                                Work Email *
-                                            </label>
-                                            <input
-                                                required
-                                                type="email"
-                                                className={`${inputClasses} border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 transition-all duration-500 outline-none`}
-                                                placeholder="name@company.com"
-                                            />
-                                        </div>
-
-                                        <div className="group space-y-3">
-                                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] transition-colors ml-1">
-                                                Phone Number *
-                                            </label>
-                                            <input
-                                                required
-                                                type="tel"
-                                                className={`${inputClasses} border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 transition-all duration-500 outline-none`}
-                                                placeholder="+91 00000 00000"
-                                            />
-                                        </div>
-
-                                        <div className="group space-y-3">
-                                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] transition-colors ml-1">
-                                                Add Guests
-                                            </label>
-                                            <input
-                                                className={`${inputClasses} border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 transition-all duration-500 outline-none`}
-                                                placeholder="Optional: colleague@company.com"
-                                            />
-                                        </div>
-
-                                        <div className="group space-y-3">
-                                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] transition-colors ml-1">
-                                                what kind of service are you looking for
-                                            </label>
-                                            <input
-                                                className={`${inputClasses} border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 transition-all duration-500 outline-none`}
-                                                placeholder="Optional: colleague@company.com"
-                                            />
-                                        </div>
-
-                                        <div className="group space-y-3">
-                                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] transition-colors ml-1">
-                                                How did you hear about company
-                                            </label>
-                                            <input
-                                                className={`${inputClasses} border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 transition-all duration-500 outline-none`}
-                                                placeholder="Optional: colleague@company.com"
-                                            />
-                                        </div>
-
-                                        <div className="group space-y-3">
-                                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] transition-colors ml-1">
-                                                Which Services are you intrested in
-                                            </label>
-                                            <input
-                                                className={`${inputClasses} border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 transition-all duration-500 outline-none`}
-                                                placeholder="Optional: colleague@company.com"
-                                            />
-                                        </div>
-
-                                        <div className="group space-y-3">
-                                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] transition-colors ml-1">
-                                                Whats your approximate budget?
-                                            </label>
-                                            <input
-                                                className={`${inputClasses} border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 transition-all duration-500 outline-none`}
-                                                placeholder="Optional: colleague@company.com"
-                                            />
-                                        </div>
-                                    </section>
-
-                                    {/* Selection Grid */}
-                                    <section className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-10 pt-4">
-                                        <div className="group space-y-3">
-                                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] ml-1">
-                                                Service Required *
-                                            </label>
-                                            <div className="relative">
-                                                <select className={`${inputClasses} appearance-none border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 cursor-pointer outline-none w-full`}>
-                                                    <option>Full-stack Web Dev</option>
-                                                    <option>Mobile App (React Native)</option>
-                                                    <option>UI/UX Design Strategy</option>
-                                                    <option>Lead Gen & Branding</option>
-                                                </select>
-                                                <FaChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-slate-300" size={12} />
-                                            </div>
-                                        </div>
-
-                                        <div className="group space-y-3">
-                                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] ml-1">
-                                                Project Status *
-                                            </label>
-                                            <div className="relative">
-                                                <select className={`${inputClasses} appearance-none border-b-2 border-slate-100 focus:border-[#00C752] bg-transparent px-1 py-4 cursor-pointer outline-none w-full`}>
-                                                    <option>Concept / Idea</option>
-                                                    <option>Existing Business (Upgrade)</option>
-                                                    <option>Under Construction</option>
-                                                </select>
-                                                <FaChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-slate-300" size={12} />
-                                            </div>
-                                        </div>
-                                    </section>
-
-                                    {/* Vision Area */}
-                                    <div className="group space-y-4 pt-4">
-                                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-focus-within:text-[#00C752] ml-1">
-                                            Describe your vision *
-                                        </label>
-                                        <textarea
-                                            required
-                                            rows={4}
-                                            className={`${inputClasses} border-2 border-slate-100 focus:border-[#00C752] rounded-2xl bg-slate-50/50 p-6 transition-all duration-500 outline-none resize-none`}
-                                            placeholder="What are we building? Tell us about your scope, challenges, and objectives..."
-                                        />
-                                    </div>
-
-                                    {/* Footer & CTA */}
-                                    <div className="pt-12 border-t border-slate-100">
-                                        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-                                            <div className="flex items-start gap-3 max-w-sm">
-                                                <div className="mt-1 h-2 w-2 rounded-full bg-[#00C752] animate-pulse shrink-0" />
-                                                <p className="text-[11px] text-slate-400 leading-relaxed font-medium">
-                                                    By confirming, you agree to CodeDale's <span className="text-slate-900 font-bold underline cursor-pointer decoration-2 decoration-[#00C752]/30">Terms</span> and <span className="text-slate-900 font-bold underline cursor-pointer decoration-2 decoration-[#00C752]/30">Privacy Policy</span>.
-                                                </p>
-                                            </div>
-
-                                            <button
-                                                type="submit"
-                                                className="group relative w-full md:w-auto px-10 py-4 bg-[#0a0a0a] text-white rounded-full font-black uppercase tracking-[0.2em] text-[10px] overflow-hidden transition-all duration-500 hover:shadow-[0_20px_40px_-15px_rgba(0,199,82,0.4)] hover:-translate-y-1 active:scale-95 border border-white/5"
-                                            >
-                                                {/* The Shimmer Effect */}
-                                                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent italic" />
-
-                                                <span className="relative z-10 flex items-center justify-center gap-4">
-                                                    <span className="group-hover:tracking-[0.3em] transition-all duration-500">Confirm Booking</span>
-
-                                                    {/* Animated Arrow Icon */}
-                                                    <div className="relative flex items-center">
-                                                        <div className="w-0 group-hover:w-6 h-[1px] bg-[#00C752] transition-all duration-500 ease-out" />
-                                                        <FaArrowRight size={10} className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-500 text-[#00C752]" />
-                                                    </div>
-                                                </span>
-
-                                                {/* Background Glow Overlay */}
-                                                <div className="absolute inset-0 bg-gradient-to-tr from-[#00C752]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                                <BookingForm
+                                    setStep={setStep}
+                                    options={options}
+                                    services={servicesList}
+                                    budgetOptions={budgetOptions}
+                                    selectedDate={new Date(currentYear, currentMonth, selectedDate)}
+                                    selectedTime={selectedTime}
+                                />
                             </motion.div>
                         ) : (
                             <motion.div key="success" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="flex flex-col items-center justify-center h-full text-center p-12">
