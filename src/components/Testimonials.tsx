@@ -8,16 +8,19 @@ import { MaskedAvatars } from "./MaskedAvatars"; // Adjust path as needed
 const reviews = [
   {
     name: "Arjun Kapoor",
+    role: "Startup Founder",
     avatar: "https://i.pravatar.cc/150?u=ak",
     text: "BG THUB took our rough idea and turned it into a polished product in just 6 weeks. Their team is communicative and genuinely invested in your success."
   },
   {
     name: "Priya Sharma",
+    role: "Final Year Student",
     avatar: "https://i.pravatar.cc/150?u=ps",
     text: "As a final year student, I didn't know where to start. BG THUB mentored me through every step and helped me launch my first real app."
   },
   {
     name: "Rohit Nair",
+    role: "Product Manager",
     avatar: "https://i.pravatar.cc/150?u=rn",
     text: "We needed an AI-powered solution on a tight budget. BG THUB delivered something beyond what we expected — clean, scalable, and exactly on time."
   }
