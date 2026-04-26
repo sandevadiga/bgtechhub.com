@@ -28,7 +28,6 @@ export default function Home() {
 
         <WhyUs />
         <StudentSupport />
-        {/* <Portfolio /> */}
         <Testimonials />
         <Contact />
       </main>
