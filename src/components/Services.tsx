@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 
 interface ServiceDetail {
   id: string;
-  icon: React.ReactNode;
+  image: string;
+  bgImage: string;
   title: string;
   tagline: string;
   description: string;
@@ -14,15 +15,18 @@ interface ServiceDetail {
   timeline: string;
   priceRange: string;
   accentColor: string;
-  iconColor: string;
+  accentSolid: string;
+  shadowClass: string;
 }
 
 const serviceDetails: ServiceDetail[] = [
   {
     id: "web-dev",
-    accentColor: "from-blue-500 to-cyan-400",
-    iconColor: "text-blue-500",
-    icon: <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16l-4-4m0 0l4-4m-4 4h18" /></svg>,
+    accentColor: "from-blue-600 to-sky-400",
+    accentSolid: "#2563eb",
+    shadowClass: "group-hover:shadow-blue-500/30",
+    image: "/assets/images/web_dev.jpg",
+    bgImage: "/assets/images/bg_web_development.png",
     title: "Web Development",
     tagline: "High-performance, responsive web architectures.",
     description: "Modern, scalable websites using Next.js. From high-converting landing pages to complex SaaS platforms.",
@@ -31,9 +35,11 @@ const serviceDetails: ServiceDetail[] = [
   },
   {
     id: "app-dev",
-    accentColor: "from-indigo-500 to-purple-500",
-    iconColor: "text-indigo-500",
-    icon: <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="3" strokeWidth="1.5" /><path strokeLinecap="round" d="M12 18h.01" strokeWidth="2" /></svg>,
+    accentColor: "from-indigo-600 to-purple-500",
+    accentSolid: "#4f46e5",
+    shadowClass: "group-hover:shadow-indigo-500/30",
+    image: "/assets/images/app1_dev.png",
+    bgImage: "/assets/images/bg_app_development.png",
     title: "App Development",
     tagline: "Native and cross-platform mobile experiences.",
     description: "We build intuitive mobile apps for iOS and Android that focus on performance and user retention.",
@@ -42,9 +48,11 @@ const serviceDetails: ServiceDetail[] = [
   },
   {
     id: "ai-apps",
-    accentColor: "from-emerald-500 to-teal-400",
-    iconColor: "text-emerald-500",
-    icon: <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg>,
+    accentColor: "from-teal-500 to-emerald-400",
+    accentSolid: "#14b8a6",
+    shadowClass: "group-hover:shadow-teal-500/30",
+    image: "/assets/images/ai_app.jpg",
+    bgImage: "/assets/images/bg_ai_applications.png",
     title: "AI Applications",
     tagline: "Integrate intelligence into your workflows.",
     description: "Leveraging LLMs and Machine Learning to automate complex tasks and provide smart user insights.",
@@ -53,9 +61,11 @@ const serviceDetails: ServiceDetail[] = [
   },
   {
     id: "data-products",
-    accentColor: "from-orange-500 to-yellow-400",
-    iconColor: "text-orange-500",
-    icon: <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>,
+    accentColor: "from-orange-500 to-amber-400",
+    accentSolid: "#f97316",
+    shadowClass: "group-hover:shadow-orange-500/30",
+    image: "/assets/images/data_driven1.jpeg",
+    bgImage: "/assets/images/bg_data_products.png",
     title: "Data Driven Products",
     tagline: "Turn your raw data into actionable assets.",
     description: "We build dashboards and analytics engines that help you make decisions based on real-time evidence.",
@@ -64,9 +74,11 @@ const serviceDetails: ServiceDetail[] = [
   },
   {
     id: "ui-ux",
-    accentColor: "from-pink-500 to-rose-400",
-    iconColor: "text-pink-500",
-    icon: <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>,
+    accentColor: "from-rose-500 to-pink-400",
+    accentSolid: "#f43f5e",
+    shadowClass: "group-hover:shadow-rose-500/30",
+    image: "/assets/images/ui_ux.jpeg",
+    bgImage: "/assets/images/bg_ui_ux_design.png",
     title: "UI/UX Design",
     tagline: "User-centric designs that convert.",
     description: "Creating visually stunning and highly functional interfaces focused on the end-user journey.",
@@ -75,9 +87,11 @@ const serviceDetails: ServiceDetail[] = [
   },
   {
     id: "logo-design",
-    accentColor: "from-amber-500 to-orange-400",
-    iconColor: "text-amber-500",
-    icon: <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>,
+    accentColor: "from-amber-600 to-yellow-400",
+    accentSolid: "#d97706",
+    shadowClass: "group-hover:shadow-amber-500/30",
+    image: "/assets/images/logo-designing.png",
+    bgImage: "/assets/images/bg_logo_design.png",
     title: "Logo Designing",
     tagline: "Crafting memorable brand identities.",
     description: "Minimalist and impactful logos that define your brand and stand the test of time.",
@@ -86,9 +100,11 @@ const serviceDetails: ServiceDetail[] = [
   },
   {
     id: "mvp-prototyping",
-    accentColor: "from-violet-500 to-fuchsia-400",
-    iconColor: "text-violet-500",
-    icon: <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>,
+    accentColor: "from-fuchsia-600 to-purple-500",
+    accentSolid: "#c026d3",
+    shadowClass: "group-hover:shadow-fuchsia-500/30",
+    image: "/assets/images/rapid_mvp.png",
+    bgImage: "/assets/images/rapid_mvp.png",
     title: "Rapid Prototyping & MVPs",
     tagline: "Go from idea to market in record time.",
     description: "Validation-first development to help startups launch their Minimum Viable Product quickly.",
@@ -97,9 +113,11 @@ const serviceDetails: ServiceDetail[] = [
   },
   {
     id: "digital-marketing",
-    accentColor: "from-green-500 to-emerald-400",
-    iconColor: "text-green-500",
-    icon: <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.167H3.38a1.76 1.76 0 010-3.52h1.056L6.583 3.94a1.76 1.76 0 013.417.592l1 1.35zm0 0h1a3 3 0 013 3v2.5a3 3 0 01-3 3h-1m4-7a2 2 0 000 4m2-6a4 4 0 000 8" /></svg>,
+    accentColor: "from-green-600 to-lime-400",
+    accentSolid: "#16a34a",
+    shadowClass: "group-hover:shadow-green-500/30",
+    image: "/assets/images/digital_marketing.jpg",
+    bgImage: "/assets/images/digital_marketing.jpg",
     title: "Digital Marketing & SEO",
     tagline: "Drive traffic and dominate search rankings.",
     description: "Strategic marketing campaigns and technical SEO to ensure your product gets the attention it deserves.",
@@ -169,30 +187,69 @@ export default function Services() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {serviceDetails.map((svc, idx) => (
             <motion.div
               key={svc.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
-              whileHover={{ y: -10 }}
+              whileHover={{ y: -8 }}
               onClick={() => { setActiveService(svc); document.body.style.overflow = "hidden"; }}
               className="group cursor-pointer"
             >
-              <div className="relative h-44 mb-6 flex justify-center items-center">
-                <div className={`absolute w-28 h-36 bg-gradient-to-br ${svc.accentColor} rounded-2xl rotate-[-10deg] opacity-15 group-hover:rotate-[-18deg] group-hover:scale-110 transition-all duration-500 shadow-xl translate-x-[-15px]`} />
-                <div className={`absolute w-28 h-36 bg-gradient-to-br ${svc.accentColor} rounded-2xl rotate-[10deg] opacity-30 group-hover:rotate-[18deg] group-hover:scale-105 transition-all duration-500 shadow-xl translate-x-[15px]`} />
-                <div className="relative w-32 h-40 bg-white border border-slate-100 rounded-2xl shadow-2xl flex items-center justify-center p-8 group-hover:shadow-emerald-500/10 transition-all duration-500">
-                  <div className={`w-full h-full ${svc.iconColor} transition-all duration-500 transform group-hover:scale-110`}>
-                    {svc.icon}
+              <div
+                className={`relative h-[320px] rounded-2xl overflow-hidden shadow-lg transition-all duration-500 group-hover:shadow-2xl ${svc.shadowClass}`}
+              >
+                {/* Background Image */}
+                <img
+                  src={svc.bgImage}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+
+                {/* Dark Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/30 transition-opacity duration-500 group-hover:from-slate-950 group-hover:via-slate-950/80 group-hover:to-slate-950/40" />
+
+                {/* Accent glow on hover */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500"
+                  style={{ background: `radial-gradient(ellipse at center bottom, ${svc.accentSolid}, transparent 70%)` }}
+                />
+
+                {/* Centered Service Thumbnail */}
+                <div className="absolute inset-0 flex items-center justify-center z-10">
+                  <div className="relative">
+                    <div
+                      className="absolute -inset-3 rounded-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-500 blur-xl"
+                      style={{ background: svc.accentSolid }}
+                    />
+                    <div className="relative w-20 h-20 rounded-xl overflow-hidden border-2 border-white/20 shadow-2xl transition-transform duration-500 group-hover:scale-110 group-hover:border-white/40">
+                      <img
+                        src={svc.image}
+                        alt={svc.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="text-center px-4">
-                <h3 className="text-xl font-black text-slate-900 mb-2 tracking-tight group-hover:text-emerald-600 transition-colors">{svc.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed max-w-[220px] mx-auto line-clamp-2 font-medium">{svc.tagline}</p>
+                {/* Bottom Text Area */}
+                <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
+                  <h3 className="text-lg font-black text-white mb-1.5 tracking-tight transition-colors duration-300 group-hover:text-emerald-400">
+                    {svc.title}
+                  </h3>
+                  <p className="text-slate-400 text-xs leading-relaxed line-clamp-2 font-medium group-hover:text-slate-300 transition-colors duration-300">
+                    {svc.tagline}
+                  </p>
+                  <div className="mt-3 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-emerald-400">Explore</span>
+                    <svg className="w-3 h-3 text-emerald-400 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -215,7 +272,11 @@ export default function Services() {
                   <button onClick={closeModal} className="mb-8 text-slate-400 hover:text-white transition-colors text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-2">
                     <span>✕</span> Close Project
                   </button>
-                  <div className={`w-12 h-12 mb-6 ${activeService.iconColor} brightness-125`}>{activeService.icon}</div>
+                  <img
+                    src={activeService.image}
+                    alt={activeService.title}
+                    className="w-16 h-16 mb-6 rounded-xl object-cover shadow-lg border border-white/20"
+                  />
                   <h2 className="text-3xl font-black mb-4 leading-tight tracking-tighter">{activeService.title}</h2>
                   <p className="text-slate-400 text-xs mb-6 leading-relaxed font-medium">{activeService.description}</p>
                   <div className="space-y-3">

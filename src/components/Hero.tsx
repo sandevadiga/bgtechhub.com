@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState, useRef } from 'react';
-import { motion, useMotionValue, animate, useInView, useSpring } from 'framer-motion';
-import { Star, ArrowRight, TrendingUp, Globe, Zap, Laptop, BarChart3 } from "lucide-react";
+import { motion, useMotionValue, animate, useInView, useSpring, Variants } from 'framer-motion';
+import { Star, ArrowRight, TrendingUp, Globe, Zap, Laptop, BarChart3, Clock, Rocket } from "lucide-react";
 import { useRouter } from 'next/navigation';
 
 // --- Ticker Data ---
@@ -82,7 +82,7 @@ const RoseOrbit = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-30">
+    <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-30 -translate-y-16">
       <svg viewBox="0 0 100 100" className="w-[85vmin] h-[85vmin] overflow-visible text-[#00C752]">
         <g ref={containerRef}>
           <path ref={pathRef} fill="none" stroke="currentColor" strokeWidth="0.4" strokeLinecap="round" opacity="0.1" />
@@ -95,12 +95,12 @@ const RoseOrbit = () => {
   );
 };
 
-const fadeInUp = {
+const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.215, 0.61, 0.355, 1] } }
 };
 
-const staggerContainer = {
+const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
 };
@@ -142,7 +142,7 @@ export default function Hero() {
           whileHover={{ scale: 1.05 }}
           className="flex items-center gap-3 px-4 py-2 rounded-full border border-green-200 bg-green-50/80 backdrop-blur-md shadow-sm mb-6 group cursor-pointer"
         >
-          <Star size={14} className="text-[#00C752] fill-[#00C752]" />
+          <Star size={14} className="text-[#00C752] fill-[#00C752] drop-shadow-[0_0_8px_rgba(0,199,82,0.8)] animate-pulse" />
           {/* INCREASED CONTRAST: text-green-700 to text-emerald-800 */}
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-800">Only 2 open slots available!</span>
           <div className="ml-1 p-1 rounded-full bg-white group-hover:bg-[#00C752] transition-colors">
@@ -200,19 +200,32 @@ export default function Hero() {
           </motion.button>
         </motion.div>
 
-        <motion.div variants={fadeInUp} className="w-full grid grid-cols-1 sm:grid-cols-3 border border-emerald-100 bg-white/80 backdrop-blur-xl rounded-[2.5rem] overflow-hidden shadow-2xl shadow-emerald-500/10">
+        <motion.div
+          variants={fadeInUp}
+          className="w-full mt-12 md:mt-20 grid grid-cols-2 md:grid-cols-4 border border-emerald-100 bg-transparent backdrop-blur-xl rounded-[2.5rem] overflow-hidden shadow-2xl shadow-emerald-500/10"
+        >
           {[
-            { label: "Projects Delivered", val: 15, suf: "+" },
-            { label: "Own Products", val: 2, suf: "+" },
-            { label: "Client Satisfaction", val: 100, suf: "%" }
+            { label: "Projects Delivered", val: 15, suf: "+", sub: "Websites, apps & AI tools" },
+            { label: "Weeks to MVP", val: 6, suf: "+", sub: "Avg. delivery timeline" },
+            { label: "Products", val: 3, suf: "+", sub: "Based on project reviews" },
+            { label: "Client Satisfaction", val: 100, suf: "%", sub: "Excellence Guaranteed" }
           ].map((stat, i) => (
-            <div key={i} className={`flex flex-col items-center p-10 ${i !== 2 ? 'border-b sm:border-b-0 sm:border-r border-emerald-50' : ''}`}>
-              <span className="text-5xl font-black text-slate-900 mb-2">
+            <div
+              key={i}
+              className={`group flex flex-col items-center p-10 sm:p-12 border-emerald-50 transition-all duration-500 hover:bg-emerald-50/50 relative
+                ${i % 2 === 0 ? 'border-r' : ''} 
+                ${i < 2 ? 'border-b' : ''} 
+                md:border-b-0 
+                ${i !== 3 ? 'md:border-r' : 'md:border-r-0'}`}
+            >
+              <span className="text-5xl sm:text-6xl font-black mb-3 bg-gradient-to-br from-[#00C752] to-emerald-800 bg-clip-text text-transparent">
                 <CountUp target={stat.val} suffix={stat.suf} />
               </span>
-              {/* HIGH CONTRAST EMERALD */}
-              <span className="text-[10px] font-black uppercase tracking-[0.25em] text-emerald-800">
+              <span className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-900 mb-1 text-center">
                 {stat.label}
+              </span>
+              <span className="text-[9px] font-medium text-slate-400 uppercase tracking-wider text-center group-hover:text-emerald-700 transition-colors duration-300">
+                {stat.sub}
               </span>
             </div>
           ))}

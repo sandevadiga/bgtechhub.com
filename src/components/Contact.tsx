@@ -74,15 +74,15 @@ export default function Contact() {
             </motion.div>
 
             <div className="space-y-8">
-              <div className="flex items-center gap-5 group">
+              <a href="mailto:connect@bgthub.com" className="flex items-center gap-5 group cursor-pointer no-underline">
                 <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-green-600 group-hover:bg-green-50 transition-all duration-300 shadow-sm">
                   <Mail size={20} />
                 </div>
                 <div>
                   <p className="text-[10px] uppercase tracking-widest text-slate-600 font-bold">Email us</p>
-                  <p className="text-slate-900 font-bold text-lg">hello@bgthub.com</p>
+                  <p className="text-slate-900 font-bold text-lg">connect@bgthub.com</p>
                 </div>
-              </div>
+              </a>
 
               <div className="flex items-center gap-5 group">
                 <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-green-600 group-hover:bg-green-50 transition-all duration-300 shadow-sm">

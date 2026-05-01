@@ -107,86 +107,14 @@ const RidexeLandingPage = () => {
                         </div>
                     </div>
 
-                    {/* Right Mobile Profile Section */}
-                    <div className="flex-1 w-full lg:max-w-[400px] flex justify-center lg:justify-end mt-16">
-                        <div className="relative w-[320px] h-[540px] bg-white rounded-[40px] shadow-[0_40px_80px_-15px_rgba(16,185,129,0.15)] overflow-hidden border-[10px] border-slate-900">
-
-                            {/* Top Notch Area */}
-                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-slate-900 rounded-b-2xl z-20" />
-
-                            <div className="h-full flex flex-col pt-12 px-6 bg-[#FCFFFC]">
-                                {/* RideXe Logo */}
-                                <div className="mb-8">
-                                    <span className="text-emerald-900 font-black tracking-tighter text-xl">RIDEXE</span>
-                                </div>
-
-                                {/* Profile Avatar Section */}
-                                <div className="flex flex-col items-center justify-center space-y-4 mb-8">
-                                    <div className="relative">
-                                        <div className="w-32 h-32 rounded-full border-2 border-emerald-400 p-1 flex items-center justify-center">
-                                            <div className="w-full h-full rounded-full bg-slate-100 flex items-center justify-center overflow-hidden">
-                                                <UserCircle2 className="w-20 h-20 text-slate-300" strokeWidth={1} />
-                                            </div>
-                                        </div>
-                                        {/* Active Badge */}
-                                        <div className="absolute bottom-2 right-2 w-6 h-6 bg-emerald-500 rounded-full border-2 border-white flex items-center justify-center">
-                                            <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
-                                        </div>
-                                    </div>
-
-                                    <div className="text-center">
-                                        <h3 className="text-xl font-bold text-slate-900">Santhosh Devadiga</h3>
-                                        <p className="text-slate-400 text-sm font-medium">+91 98765 43210</p>
-                                    </div>
-                                </div>
-
-                                {/* Stats Card */}
-                                <div className="bg-[#F4FAF6] rounded-3xl p-6 flex items-center justify-between border border-emerald-100/50">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center">
-                                            <div className="w-6 h-3 bg-emerald-500 rounded-sm relative">
-                                                <div className="absolute -left-1 top-0.5 w-1 h-2 bg-emerald-600 rounded-full" />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <p className="text-[10px] uppercase tracking-widest font-bold text-emerald-800/50">Total Rides</p>
-                                            <p className="text-2xl font-black text-slate-900 leading-none">142</p>
-                                        </div>
-                                    </div>
-                                    <div className="bg-emerald-200/50 px-3 py-1.5 rounded-full">
-                                        <span className="text-[10px] font-black text-emerald-700 uppercase">Prime</span>
-                                    </div>
-                                </div>
-
-                                {/* Bottom Nav Mockup */}
-                                <div className="absolute bottom-0 left-0 right-0 h-20 bg-white border-t border-slate-50 px-4 flex justify-around items-center">
-                                    <div className="flex flex-col items-center gap-1 text-slate-300">
-                                        <Home size={20} />
-                                        <span className="text-[8px] font-bold uppercase">Home</span>
-                                    </div>
-                                    <div className="flex flex-col items-center gap-1 text-slate-300">
-                                        <Search size={20} />
-                                        <span className="text-[8px] font-bold uppercase">Assist</span>
-                                    </div>
-                                    <div className="flex flex-col items-center gap-1 text-slate-300">
-                                        <Ticket size={20} />
-                                        <span className="text-[8px] font-bold uppercase">Events</span>
-                                    </div>
-                                    <div className="flex flex-col items-center gap-1 text-slate-300">
-                                        <Tv2 size={20} />
-                                        <span className="text-[8px] font-bold uppercase">Vlogs</span>
-                                    </div>
-                                    <div className="flex flex-col items-center gap-1 text-emerald-500">
-                                        <div className="bg-emerald-50 p-2 rounded-xl">
-                                            <UserCircle2 size={20} />
-                                        </div>
-                                        <span className="text-[8px] font-bold uppercase">Profile</span>
-                                    </div>
-                                </div>
-
-                                {/* Screen Indicator */}
-                                <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-20 h-1 bg-slate-200 rounded-full" />
-                            </div>
+                    {/* Right Image Section */}
+                    <div className="flex-1 w-full lg:max-w-[600px] flex justify-center lg:justify-end mt-16">
+                        <div className="relative w-full rounded-3xl shadow-[0_40px_80px_-15px_rgba(16,185,129,0.15)] overflow-hidden">
+                            <img
+                                src="/assets/images/ridexe2.jpeg"
+                                alt="Ridexe App Preview"
+                                className="w-full h-auto object-cover rounded-3xl"
+                            />
                         </div>
                     </div>
                 </div>

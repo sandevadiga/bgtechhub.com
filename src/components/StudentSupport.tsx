@@ -28,7 +28,7 @@ const studentFeatures = [
     bg: "bg-blue-50",
     iconColor: "text-blue-600",
     borderColor: "group-hover:border-blue-200",
-    outcomes: ["Personalized Code Reviews", "Weekly 1-on-1 Mentorship", "Career Launch Roadmap"]
+    outcomes: ["Personalized Code Reviews", "Weekly text-green-600", "Career Launch Roadmap"]
   },
   {
     id: "validation",
@@ -80,7 +80,7 @@ export default function StudentAcademy() {
   const activeFeature = studentFeatures.find((f) => f.id === selectedId);
 
   const handleBooking = () => {
-    router.push("/academy-apply");
+    router.push("/work/booking");
   };
 
   return (
@@ -144,9 +144,7 @@ export default function StudentAcademy() {
                     <span className="text-slate-400 font-bold text-lg">/project</span>
                   </div>
                 </div>
-                <div className="px-4 py-2 rounded-2xl bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest shadow-lg">
-                  Batch: May
-                </div>
+
               </div>
 
               <div className="space-y-5 mb-12">
@@ -191,7 +189,7 @@ export default function StudentAcademy() {
                 >
                   <div className={`w-14 h-14 rounded-2xl ${f.bg} flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-inner`}>
                     <div className={`${f.iconColor} transform transition-transform group-hover:rotate-[10deg]`}>
-                      {cloneElement(f.icon as React.ReactElement, { size: 28 })}
+                      {cloneElement(f.icon as React.ReactElement<any>, { size: 28 })}
                     </div>
                   </div>
                   <h4 className="text-xl font-black text-slate-900 mb-3 tracking-tight">{f.title}</h4>
@@ -245,6 +243,17 @@ export default function StudentAcademy() {
         </div>
       </div>
 
+      {/* Explore More CTA */}
+      <div className="flex justify-center mt-16">
+        <button
+          onClick={() => router.push("/for-students")}
+          className="group flex items-center gap-3 px-10 py-5 bg-slate-900 text-white font-black text-xs uppercase tracking-[0.2em] rounded-2xl hover:bg-emerald-600 transition-all duration-300 shadow-lg hover:shadow-emerald-200/50 active:scale-95"
+        >
+          Explore More
+          <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+        </button>
+      </div>
+
       {/* MODAL: FOCUS STATE */}
       <AnimatePresence>
         {selectedId && activeFeature && (
@@ -268,7 +277,7 @@ export default function StudentAcademy() {
               </button>
 
               <div className={`w-16 h-16 rounded-2xl ${activeFeature.bg} flex items-center justify-center mb-8 shadow-inner`}>
-                {cloneElement(activeFeature.icon as React.ReactElement, {
+                {cloneElement(activeFeature.icon as React.ReactElement<any>, {
                   size: 32,
                   className: activeFeature.iconColor
                 })}

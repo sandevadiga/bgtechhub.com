@@ -78,20 +78,17 @@ export default function Testimonials() {
         {/* Carousel Container */}
         <div className="relative flex items-center justify-center">
 
-          {/* Extreme Left Arrow */}
+          {/* Left Arrow */}
           <button
             onClick={handlePrev}
-            className="absolute -left-4 md:-left-8 z-40 p-4 rounded-full bg-white border border-slate-100 shadow-2xl text-slate-400 hover:text-green-600 hover:border-emerald-200 transition-all active:scale-90 hidden lg:flex"
+            className="absolute -left-4 md:-left-8 z-40 p-4 rounded-full bg-white border border-slate-100 shadow-2xl text-slate-400 hover:text-green-600 transition-all active:scale-90 hidden lg:flex"
           >
             <ChevronLeft size={28} />
           </button>
 
           {/* Card Viewport */}
           <div className="w-full overflow-hidden px-2">
-            <motion.div
-              layout
-              className="flex gap-6 justify-center"
-            >
+            <motion.div layout className="flex gap-6 justify-center">
               <AnimatePresence mode="popLayout" initial={false}>
                 {items.slice(0, 3).map((item) => (
                   <motion.div
@@ -118,12 +115,35 @@ export default function Testimonials() {
                       </p>
                     </blockquote>
 
-                    {/* Profile Section - Rounded Avatar */}
-                    <div className="mt-8 flex items-center gap-4">
-                      <div className="w-12 h-12 flex-shrink-0 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover/card:bg-emerald-600 group-hover/card:border-emerald-600 transition-all duration-500 shadow-sm">
-                        <span className="font-black text-sm text-emerald-800 group-hover/card:text-white transition-colors duration-500">
-                          {getInitials(item.name)}
-                        </span>
+                    {/* Profile Section */}
+                    <div className="mt-12 flex items-center gap-4">
+                      {/* Avatar Container */}
+                      <div className="relative w-20 h-20 flex-shrink-0 group/avatar flex items-center justify-center">
+
+                        {/* Arched Name - Larger and bolder */}
+                        <div className="absolute inset-x-0 -top-6 h-16 w-full opacity-0 group-hover/avatar:opacity-100 transition-all duration-500 pointer-events-none z-20">
+                          <svg viewBox="0 0 120 60" className="w-full h-full">
+                            <path
+                              id={`curve-large-${item.id}`}
+                              d="M 10,50 A 50,50 0 0,1 110,50"
+                              fill="transparent"
+                            />
+                            <text className="text-[13px] font-black fill-emerald-600 uppercase tracking-tighter">
+                              <textPath xlinkHref={`#curve-large-${item.id}`} startOffset="50%" textAnchor="middle">
+                                {item.name}
+                              </textPath>
+                            </text>
+                          </svg>
+                        </div>
+
+                        {/* Initials Circle - Moves UP on hover */}
+                        <div
+                          className="relative z-10 w-14 h-14 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover/card:bg-emerald-600 group-hover/card:border-emerald-600 transition-all duration-500 shadow-sm group-hover/avatar:-translate-y-3"
+                        >
+                          <span className="font-black text-base text-emerald-800 group-hover/card:text-white transition-colors duration-500">
+                            {getInitials(item.name)}
+                          </span>
+                        </div>
                       </div>
 
                       <div className="min-w-0">
@@ -141,10 +161,10 @@ export default function Testimonials() {
             </motion.div>
           </div>
 
-          {/* Extreme Right Arrow */}
+          {/* Right Arrow */}
           <button
             onClick={handleNext}
-            className="absolute -right-4 md:-right-8 z-40 p-4 rounded-full bg-white border border-slate-100 shadow-2xl text-slate-400 hover:text-green-600 hover:border-emerald-200 transition-all active:scale-90 hidden lg:flex"
+            className="absolute -right-4 md:-right-8 z-40 p-4 rounded-full bg-white border border-slate-100 shadow-2xl text-slate-400 hover:text-green-600 transition-all active:scale-90 hidden lg:flex"
           >
             <ChevronRight size={28} />
           </button>
