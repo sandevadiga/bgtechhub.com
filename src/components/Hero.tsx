@@ -1,9 +1,18 @@
 "use client";
 
 import { useEffect, useState, useRef } from 'react';
-import { motion, useMotionValue, animate, useInView, useSpring } from 'framer-motion';
-import { Star, ArrowRight } from "lucide-react";
+import { motion, useMotionValue, animate, useInView, useSpring, Variants } from 'framer-motion';
+import { Star, ArrowRight, TrendingUp, Globe, Zap, Laptop, BarChart3, Clock, Rocket } from "lucide-react";
 import { useRouter } from 'next/navigation';
+
+// --- Ticker Data ---
+const tickerStats = [
+  { icon: <TrendingUp className="w-3.5 h-3.5" />, label: "App Market", value: "$20.89B", suffix: "in 2025" },
+  { icon: <Globe className="w-3.5 h-3.5" />, label: "India ranks", value: "#1", suffix: "globally for GenAI" },
+  { icon: <Zap className="w-3.5 h-3.5" />, label: "Indian Startups", value: "89%", suffix: "using AI" },
+  { icon: <Laptop className="w-3.5 h-3.5" />, label: "Web Dev India", value: "₹10K—₹5L+", suffix: "by complexity" },
+  { icon: <BarChart3 className="w-3.5 h-3.5" />, label: "Active Users", value: "800M+", suffix: "and growing" }
+];
 
 // --- Rose Orbit Animation Component ---
 const RoseOrbit = () => {
@@ -73,7 +82,7 @@ const RoseOrbit = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-30">
+    <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-30 -translate-y-16">
       <svg viewBox="0 0 100 100" className="w-[85vmin] h-[85vmin] overflow-visible text-[#00C752]">
         <g ref={containerRef}>
           <path ref={pathRef} fill="none" stroke="currentColor" strokeWidth="0.4" strokeLinecap="round" opacity="0.1" />
@@ -86,13 +95,12 @@ const RoseOrbit = () => {
   );
 };
 
-// --- Animations for staggered text ---
-const fadeInUp = {
+const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.215, 0.61, 0.355, 1] as const } }
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.215, 0.61, 0.355, 1] } }
 };
 
-const staggerContainer = {
+const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
 };
@@ -115,50 +123,53 @@ function CountUp({ target, suffix = "" }: { target: number, suffix?: string }) {
 
 export default function Hero() {
   const router = useRouter();
+  const doubleTicker = [...tickerStats, ...tickerStats];
 
   return (
-    <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-white text-slate-900 pt-28 pb-16">
-
+    <section className="relative min-h-screen w-full flex flex-col justify-between overflow-hidden bg-white text-slate-900 pt-28">
       <RoseOrbit />
 
+      {/* Main Content */}
       <motion.div
         initial="hidden"
         animate="visible"
         variants={staggerContainer}
-        className="relative z-20 max-w-6xl mx-auto px-6 sm:px-10 lg:px-12 flex flex-col items-center text-center"
+        className="relative z-20 max-w-6xl mx-auto px-6 sm:px-10 lg:px-12 flex flex-col items-center text-center pb-20"
       >
-        {/* Availability Badge */}
         <motion.button
           variants={fadeInUp}
           onClick={() => router.push('/work/booking')}
           whileHover={{ scale: 1.05 }}
-          className="flex items-center gap-3 px-4 py-2 rounded-full border border-slate-200 bg-white/80 backdrop-blur-md shadow-sm mb-6 group cursor-pointer"
+          className="flex items-center gap-3 px-4 py-2 rounded-full border border-green-200 bg-green-50/80 backdrop-blur-md shadow-sm mb-6 group cursor-pointer"
         >
-          <Star size={14} className="text-[#00C752] fill-[#00C752]" />
-          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-600">Only 2 open slots available!</span>
-          <div className="ml-1 p-1 rounded-full bg-slate-100 group-hover:bg-[#00C752] transition-colors">
-            <ArrowRight size={10} className="text-slate-400 group-hover:text-white" />
+          <Star size={14} className="text-[#00C752] fill-[#00C752] drop-shadow-[0_0_8px_rgba(0,199,82,0.8)] animate-pulse" />
+          {/* INCREASED CONTRAST: text-green-700 to text-emerald-800 */}
+          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-800">Only 2 open slots available!</span>
+          <div className="ml-1 p-1 rounded-full bg-white group-hover:bg-[#00C752] transition-colors">
+            <ArrowRight size={10} className="text-emerald-600 group-hover:text-white" />
           </div>
         </motion.button>
 
         <motion.h1 variants={fadeInUp} className="text-6xl md:text-8xl font-black tracking-tight mb-6 leading-[1.1]">
-          Building <span className="bg-gradient-to-r from-[#00C752] to-cyan-500 bg-clip-text text-transparent inline-block">Ideas</span>
+          Building <span className="bg-gradient-to-r from-[#00C752] to-emerald-700 bg-clip-text text-transparent inline-block">Ideas</span>
           <br />
-          <span className="italic font-serif font-light text-slate-400 text-4xl md:text-7xl">Into Reality</span>
+          {/* INCREASED CONTRAST: slate-400 to slate-600 */}
+          <span className="italic font-serif font-light text-slate-600 text-4xl md:text-7xl">Into Reality</span>
         </motion.h1>
 
-        <motion.p variants={fadeInUp} className="max-w-xl text-base md:text-lg text-slate-500 font-medium mb-10">
+        {/* INCREASED CONTRAST: slate-500 to slate-600 */}
+        <motion.p variants={fadeInUp} className="max-w-xl text-base md:text-lg text-slate-600 font-medium mb-10">
           Transforming concepts into high-performance digital solutions, intuitive web platforms, and AI-powered systems.
         </motion.p>
 
-        {/* Action Button */}
         <motion.div variants={fadeInUp} className="flex items-center justify-center w-full mb-20">
           <motion.button
             onClick={() => router.push('/work/booking')}
+            aria-label="Book a 30 minute strategy call"
             whileHover="hover"
             initial="initial"
             whileTap={{ scale: 0.98 }}
-            className="group flex items-center gap-4 pl-2 pr-6 py-2 rounded-full border border-slate-200 bg-white hover:bg-slate-50 transition-all cursor-pointer shadow-lg shadow-slate-200/50"
+            className="group flex items-center gap-4 pl-2 pr-6 py-2 rounded-full border border-green-200 bg-white hover:bg-green-50 transition-all cursor-pointer shadow-lg shadow-emerald-500/10"
           >
             <div className="flex items-center">
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-900 text-white z-10">
@@ -171,39 +182,95 @@ export default function Hero() {
                 }}
                 className="overflow-hidden flex items-center whitespace-nowrap"
               >
-                <span className="text-slate-300 font-black text-xs mx-2">+</span>
+                <span className="text-emerald-600 font-black text-xs mx-2">+</span>
                 <div className="bg-[#00C752] text-white h-10 w-10 px-4 rounded-full flex items-center justify-center">
                   <span className="font-black text-[8px] uppercase tracking-[0.2em]">You</span>
                 </div>
               </motion.div>
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-slate-600 group-hover:text-slate-900 font-black uppercase text-[10px] tracking-[0.2em] whitespace-nowrap transition-colors">
+              {/* INCREASED CONTRAST: slate-600 to slate-800 */}
+              <span className="text-slate-800 group-hover:text-emerald-900 font-black uppercase text-[10px] tracking-[0.2em] whitespace-nowrap transition-colors">
                 Book a 30 min call
               </span>
-              <div className="p-2 rounded-full bg-slate-50 group-hover:bg-[#00C752] transition-all border border-slate-100 group-hover:border-transparent">
-                <ArrowRight size={12} className="text-slate-400 group-hover:text-white transition-colors" />
+              <div className="p-2 rounded-full bg-green-50 group-hover:bg-[#00C752] transition-all border border-green-100 group-hover:border-transparent">
+                <ArrowRight size={12} className="text-emerald-600 group-hover:text-white transition-colors" />
               </div>
             </div>
           </motion.button>
         </motion.div>
 
-        {/* Stats Grid */}
-        <motion.div variants={fadeInUp} className="w-full grid grid-cols-1 sm:grid-cols-3 border border-slate-200 bg-white/70 backdrop-blur-xl rounded-[2.5rem] overflow-hidden shadow-2xl shadow-slate-200/60">
+        <motion.div
+          variants={fadeInUp}
+          className="w-full mt-12 md:mt-20 grid grid-cols-2 md:grid-cols-4 border border-emerald-100 bg-transparent backdrop-blur-xl rounded-[2.5rem] overflow-hidden shadow-2xl shadow-emerald-500/10"
+        >
           {[
-            { label: "Projects Delivered", val: 50, suf: "+" },
-            { label: "Own Products", val: 2, suf: "+" },
-            { label: "Client Satisfaction", val: 100, suf: "%" }
+            { label: "Projects Delivered", val: 15, suf: "+", sub: "Websites, apps & AI tools" },
+            { label: "Weeks to MVP", val: 6, suf: "+", sub: "Avg. delivery timeline" },
+            { label: "Products", val: 3, suf: "+", sub: "Based on project reviews" },
+            { label: "Client Satisfaction", val: 100, suf: "%", sub: "Excellence Guaranteed" }
           ].map((stat, i) => (
-            <div key={i} className={`flex flex-col items-center p-10 ${i !== 2 ? 'border-b sm:border-b-0 sm:border-r border-slate-100' : ''}`}>
-              <span className="text-5xl font-black text-slate-900 mb-2">
+            <div
+              key={i}
+              className={`group flex flex-col items-center p-10 sm:p-12 border-emerald-50 transition-all duration-500 hover:bg-emerald-50/50 relative
+                ${i % 2 === 0 ? 'border-r' : ''} 
+                ${i < 2 ? 'border-b' : ''} 
+                md:border-b-0 
+                ${i !== 3 ? 'md:border-r' : 'md:border-r-0'}`}
+            >
+              <span className="text-5xl sm:text-6xl font-black mb-3 bg-gradient-to-br from-[#00C752] to-emerald-800 bg-clip-text text-transparent">
                 <CountUp target={stat.val} suffix={stat.suf} />
               </span>
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#00C752]">{stat.label}</span>
+              <span className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-900 mb-1 text-center">
+                {stat.label}
+              </span>
+              <span className="text-[9px] font-medium text-slate-400 uppercase tracking-wider text-center group-hover:text-emerald-700 transition-colors duration-300">
+                {stat.sub}
+              </span>
             </div>
           ))}
         </motion.div>
       </motion.div>
+
+      {/* --- REFINED GREEN-ACCENT TICKER --- */}
+      <div className="w-full bg-white border-t border-green-50 py-7 overflow-hidden relative z-30">
+        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
+        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white via-white/80 to-transparent z-10" />
+
+        <motion.div
+          className="flex items-center gap-16 whitespace-nowrap"
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 32, ease: "linear", repeat: Infinity }}
+        >
+          {doubleTicker.map((item, idx) => (
+            <div key={idx} className="flex items-center gap-5 px-2 group cursor-default">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-emerald-50 border border-emerald-100 group-hover:bg-[#00C752] group-hover:border-[#00C752] transition-all duration-500 shadow-sm">
+                <div className="text-emerald-700 group-hover:text-white transition-colors duration-500">
+                  {item.icon}
+                </div>
+              </div>
+
+              <div className="flex flex-col">
+                <div className="flex items-center gap-2">
+                  {/* INCREASED CONTRAST: emerald-800 instead of 700/50 */}
+                  <span className="text-emerald-800 text-[9px] font-black uppercase tracking-[0.15em] leading-none">
+                    {item.label}
+                  </span>
+                  {/* INCREASED CONTRAST: slate-600 instead of 500 */}
+                  <span className="text-slate-600 text-[9px] font-medium italic leading-none">
+                    {item.suffix}
+                  </span>
+                </div>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-emerald-900 font-black text-base tracking-tight mt-0.5 group-hover:from-[#00C752] group-hover:to-emerald-700 transition-all duration-500">
+                  {item.value}
+                </span>
+              </div>
+
+              <div className="ml-12 w-1.5 h-1.5 rounded-full bg-emerald-100 group-hover:bg-[#00C752] group-hover:shadow-[0_0_8px_#00C752] transition-all duration-500" />
+            </div>
+          ))}
+        </motion.div>
+      </div>
     </section>
   );
 }

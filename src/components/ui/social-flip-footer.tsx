@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaTwitter, FaLinkedinIn, FaInstagram, FaGithub } from "react-icons/fa6";
 
-const SocialFlipButton = () => {
+const SocialFlipFootButton = () => {
     const [isFlipped, setIsFlipped] = useState(false);
 
     return (
@@ -67,7 +67,7 @@ const SocialFlipButton = () => {
 
                         {/* Instagram */}
                         <a
-                            href="https://www.instagram.com/yourhandle"
+                            href="https://www.instagram.com/bg_thub?igsh=MTFubGljazc3ejJwMA%3D%3D&utm_source=qr"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-block"
@@ -97,4 +97,4 @@ const SocialFlipButton = () => {
     );
 };
 
-export default SocialFlipButton;
+export default SocialFlipFootButton;

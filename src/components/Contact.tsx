@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Mail, MapPin, MessageSquare, CheckCircle2, AlertCircle, Loader2, Sparkles } from "lucide-react";
+import { Send, Mail, MapPin, CheckCircle2, AlertCircle, Loader2, Sparkles } from "lucide-react";
 
 export default function Contact() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -13,6 +13,7 @@ export default function Contact() {
     const data = {
       name: formData.get("name"),
       email: formData.get("email"),
+      projectType: formData.get("projectType"),
       message: formData.get("message"),
       type: "Contact Form"
     };
@@ -20,7 +21,6 @@ export default function Contact() {
     setStatus("loading");
 
     try {
-      // Replace with your actual endpoint
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -41,96 +41,133 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="relative py-24 bg-slate-50 overflow-hidden border-t border-slate-200">
-      {/* Background Radial Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-green-500/[0.06] blur-[150px] rounded-full pointer-events-none" />
+    <section id="contact" className="relative py-24 bg-white overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-green-50 rounded-full blur-[120px] opacity-60" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-slate-100 rounded-full blur-[120px] opacity-60" />
+      </div>
 
-      <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 items-start">
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 items-center">
 
-          {/* Left Column: Context & Info */}
-          <div className="lg:col-span-2 space-y-10">
+          {/* Left Column */}
+          <div className="lg:col-span-2 space-y-12">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.8 }}
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full mb-6">
-                <Sparkles className="w-3 h-3 text-green-600" />
-                <span className="text-green-600 font-bold tracking-[0.2em] uppercase text-[9px]">Available for work</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-widest mb-6">
+                <Sparkles size={12} />
+                <span>Open for collaboration</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-black text-slate-900 leading-[1.1] mb-6">
-                Let&apos;s build <br />
-                <span className="text-green-600 italic">your next big idea.</span>
+
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 leading-[1.1] mb-6">
+                <span className="text-green-600 italic block mb-4">Let&apos;s build</span>
+                Ready to start your<br />
+                <span className="text-green-600 italic">next project?</span>
               </h2>
-              <p className="text-slate-600 text-lg leading-relaxed max-w-sm">
+              <p className="text-slate-500 text-lg leading-relaxed max-w-sm">
                 From student concepts to enterprise-grade AI, we engineer solutions that scale. Drop us a line.
               </p>
             </motion.div>
 
-            <div className="space-y-6">
-              <div className="flex items-center gap-5 group cursor-pointer">
-                <div className="w-12 h-12 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-green-600 group-hover:border-green-500/50 group-hover:bg-green-500/10 transition-all duration-300 shadow-sm">
+            <div className="space-y-8">
+              <a href="mailto:connect@bgthub.com" className="flex items-center gap-5 group cursor-pointer no-underline">
+                <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-green-600 group-hover:bg-green-50 transition-all duration-300 shadow-sm">
                   <Mail size={20} />
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Email us</p>
-                  <p className="text-slate-900 font-bold">hello@bgthub.com</p>
+                  <p className="text-[10px] uppercase tracking-widest text-slate-600 font-bold">Email us</p>
+                  <p className="text-slate-900 font-bold text-lg">connect@bgthub.com</p>
                 </div>
-              </div>
+              </a>
 
-              <div className="flex items-center gap-5 group cursor-pointer">
-                <div className="w-12 h-12 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-green-600 group-hover:border-green-500/50 group-hover:bg-green-500/10 transition-all duration-300 shadow-sm">
+              <div className="flex items-center gap-5 group">
+                <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-green-600 group-hover:bg-green-50 transition-all duration-300 shadow-sm">
                   <MapPin size={20} />
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Our Hub</p>
-                  <p className="text-slate-900 font-bold">Bengaluru, India</p>
+                  <p className="text-[10px] uppercase tracking-widest text-slate-600 font-bold">Our Hub</p>
+                  <p className="text-slate-900 font-bold text-lg">Bengaluru, India</p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Light Theme Form Card */}
+          {/* Right Column: Form Card */}
           <div className="lg:col-span-3">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="bg-white border border-slate-200 p-8 md:p-10 rounded-[2.5rem] relative shadow-xl shadow-slate-200/60"
+              className="bg-white/40 backdrop-blur-2xl border border-white/60 p-8 md:p-10 rounded-[3rem] relative shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
             >
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                  {/* Full Name */}
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
+                    <label htmlFor="name" className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Full Name</label>
                     <input
+                      id="name"
                       name="name"
                       required
                       placeholder="e.g. Rahul S."
-                      className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-green-500/50 focus:ring-4 focus:ring-green-500/5 transition-all font-medium"
+                      className="w-full bg-white/50 backdrop-blur-md border border-white/60 rounded-2xl px-5 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white/80 focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition-all font-medium shadow-[inset_0_2px_10px_rgba(0,0,0,0.02)]"
                     />
                   </div>
+
+                  {/* Email Address */}
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
+                    <label htmlFor="email" className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Email Address</label>
                     <input
+                      id="email"
                       name="email"
                       type="email"
                       required
                       placeholder="name@email.com"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-green-500/50 focus:ring-4 focus:ring-green-500/5 transition-all font-medium"
+                      className="w-full bg-white/50 backdrop-blur-md border border-white/60 rounded-2xl px-5 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white/80 focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition-all font-medium shadow-[inset_0_2px_10px_rgba(0,0,0,0.02)]"
                     />
+                  </div>
+
+                  {/* Project Type Dropdown */}
+                  <div className="space-y-2 md:col-span-2">
+                    <label htmlFor="projectType" className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Project Type</label>
+                    <div className="relative group">
+                      <select
+                        id="projectType"
+                        name="projectType"
+                        required
+                        className="w-full bg-white/50 backdrop-blur-md border border-white/60 rounded-2xl px-5 py-4 text-slate-900 focus:outline-none focus:bg-white/80 focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition-all font-medium appearance-none cursor-pointer shadow-[inset_0_2px_10px_rgba(0,0,0,0.02)]"
+                        defaultValue=""
+                      >
+                        <option value="" disabled>Select a service...</option>
+                        <option value="web">Website Development</option>
+                        <option value="mobile">App Development</option>
+                        <option value="ai">AI Solutions</option>
+                        <option value="student">Student / College Project</option>
+                        <option value="mentorship">Academy Mentorship</option>
+                        <option value="other">Other</option>
+                      </select>
+                      <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 group-hover:text-green-500 transition-colors">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
+                {/* Your Vision */}
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Your Vision</label>
+                  <label htmlFor="message" className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Your Vision</label>
                   <textarea
+                    id="message"
                     name="message"
                     rows={4}
                     required
                     placeholder="Briefly describe what you're looking to build..."
-                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-green-500/50 focus:ring-4 focus:ring-green-500/5 transition-all font-medium resize-none"
+                    className="w-full bg-white/50 backdrop-blur-md border border-white/60 rounded-2xl px-5 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white/80 focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition-all font-medium resize-none shadow-[inset_0_2px_10px_rgba(0,0,0,0.02)]"
                   />
                 </div>
 
@@ -138,9 +175,9 @@ export default function Contact() {
                   type="submit"
                   disabled={status !== "idle"}
                   className={`
-                    w-full py-5 rounded-2xl font-black text-xs uppercase tracking-[0.25em] transition-all duration-500 flex items-center justify-center gap-3 relative overflow-hidden
-                    ${status === "idle" ? "bg-green-500 text-white shadow-lg shadow-green-500/20 hover:bg-green-600 hover:-translate-y-1 active:scale-95" : ""}
-                    ${status === "loading" ? "bg-slate-100 text-slate-400 cursor-wait" : ""}
+                    w-full py-5 rounded-2xl font-black text-xs uppercase tracking-[0.25em] transition-all duration-500 flex items-center justify-center gap-3 relative overflow-hidden shadow-xl
+                    ${status === "idle" ? "bg-slate-900 text-white hover:bg-green-600 hover:-translate-y-1" : ""}
+                    ${status === "loading" ? "bg-slate-100 text-slate-400 cursor-wait shadow-none" : ""}
                     ${status === "success" ? "bg-emerald-500 text-white" : ""}
                     ${status === "error" ? "bg-rose-500 text-white" : ""}
                   `}
@@ -148,7 +185,7 @@ export default function Contact() {
                   <AnimatePresence mode="wait">
                     {status === "idle" && (
                       <motion.div key="idle" className="flex items-center gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                        Shoot Message <Send size={14} />
+                        Send Message <Send size={14} />
                       </motion.div>
                     )}
                     {status === "loading" && (
@@ -158,12 +195,12 @@ export default function Contact() {
                     )}
                     {status === "success" && (
                       <motion.div key="success" className="flex items-center gap-2" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                        Message Sent <CheckCircle2 size={16} />
+                        Success <CheckCircle2 size={16} />
                       </motion.div>
                     )}
                     {status === "error" && (
                       <motion.div key="error" className="flex items-center gap-2" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                        Try Again <AlertCircle size={16} />
+                        Error <AlertCircle size={16} />
                       </motion.div>
                     )}
                   </AnimatePresence>

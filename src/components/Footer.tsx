@@ -1,117 +1,107 @@
 "use client";
 
+import React from "react";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import {
-  FaTwitter as Twitter,
-  FaLinkedin as Linkedin,
-  FaInstagram as Instagram,
-  FaGithub as Github
-} from "react-icons/fa6";
+  FaInstagram,
+  FaWhatsapp,
+  FaLinkedinIn,
+  FaGithub,
+  FaXTwitter
+} from 'react-icons/fa6';
+import SocialFlipFootButton from "./ui/social-flip-footer";
 
-import { FaInstagram, FaWhatsapp, FaLinkedinIn } from 'react-icons/fa';
-import Link from "next/link";
+const serviceDetails = [
+  { name: "Web Development", href: "/web-development" },
+  { name: "App Development", href: "/app-development" },
+  { name: "AI Solutions", href: "/ai-solutions" },
+  { name: "MVP Development", href: "/mvp-development" },
+  { name: "For Startups", href: "/for-startups" },
+  { name: "For Students", href: "/for-students" },
+];
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
-  const socialLinks = [
-    { icon: <Twitter size={18} />, href: "#", label: "Twitter" },
-    { icon: <Linkedin size={18} />, href: "#", label: "LinkedIn" },
-    { icon: <Instagram size={18} />, href: "#", label: "Instagram" },
-    { icon: <Github size={18} />, href: "#", label: "GitHub" },
-  ];
-
   const footerLinks = {
-    Services: [
-      { name: "App Development", href: "#" },
-      { name: "Web Development", href: "#" },
-      { name: "AI Solutions", href: "#" },
-    ],
+    Services: serviceDetails,
     Products: [
       { name: "RideXe", href: "https://ridexe.com/" },
       { name: "PROtask", href: "https://protask.in/" },
+      { name: "LogiGrowth", href: "/work/logigrowth" }
     ],
     Company: [
-      { name: "About Us", href: "#" },
-      { name: "Work", href: "#" },
-      { name: "Contact", href: "#" },
+      { name: "About Us", href: "/#about" },
+      { name: "Services", href: "/#services" },
+      { name: "Our Work", href: "/#work" },
+      { name: "Academy", href: "/for-students" },
+      { name: "Blog", href: "/blog" },
+      { name: "Contact", href: "/contact" },
     ],
   };
-  const SocialIcon = ({ href, icon, label }: { href: string; icon: React.ReactNode; label: string }) => (
-    <Link
+
+  const SocialIcon = ({ href, icon, label, brandStyles }: { href: string; icon: React.ReactNode; label: string; brandStyles: string }) => (
+    <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="w-11 h-11 flex items-center justify-center rounded-full border border-slate-100 bg-white text-slate-400 transition-all duration-500 hover:text-white hover:bg-[#00C752] hover:border-[#00C752] hover:shadow-[0_10px_20px_-5px_rgba(0,199,82,0.4)] hover:-translate-y-1"
+      className={`w-11 h-11 flex items-center justify-center rounded-full text-white transition-all duration-500 hover:-translate-y-1.5 shadow-md hover:shadow-xl ${brandStyles}`}
     >
       {icon}
-    </Link>
+    </a>
   );
 
   return (
     <footer className="relative bg-[#fafafa] pt-24 pb-12 overflow-hidden border-t border-slate-200">
-      {/* Decorative Background Element */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-px bg-gradient-to-r from-transparent via-green-500/50 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent" />
 
-      <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16 mb-20">
+      <div className="max-w-6xl mx-auto px-6 lg:px-12 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 mb-20">
 
-          {/* Brand Section */}
-          <div className="md:col-span-12 lg:col-span-5 space-y-8">
-            <div className="flex flex-col gap-6">
-              {/* Logo Link */}
+          {/* Brand & Authentic Color Socials */}
+          <div className="md:col-span-12 lg:col-span-4 space-y-8">
+            <div className="space-y-6">
               <Link href="/" className="block w-fit group">
                 <img
                   src="/assets/images/bg_thub_logo1.png"
                   alt="BG THUB Logo"
+                  width={150}
+                  height={40}
                   className="h-10 w-auto object-contain transition-transform duration-500 group-hover:scale-105"
                 />
               </Link>
 
-              <p className="text-slate-500 max-w-sm leading-relaxed font-medium text-lg">
-                Building the next generation of digital products. From idea to
-                impact — we make it happen with cutting-edge tech.
+              <p className="text-slate-500 max-w-sm leading-relaxed font-medium text-base">
+                Building the next generation of digital products from Bengaluru. Websites, apps, and AI solutions — from idea to impact.
               </p>
 
-              {/* Social Media Icons */}
-              <div className="flex items-center gap-4 pt-2">
-                <SocialIcon
-                  href="https://instagram.com/your-profile"
-                  icon={<FaInstagram size={18} />}
-                  label="Instagram"
-                />
-                <SocialIcon
-                  href="https://wa.me/your-number"
-                  icon={<FaWhatsapp size={18} />}
-                  label="WhatsApp"
-                />
-                <SocialIcon
-                  href="https://linkedin.com/in/your-profile"
-                  icon={<FaLinkedinIn size={18} />}
-                  label="LinkedIn"
-                />
-              </div>
+              <SocialFlipFootButton />
+
             </div>
           </div>
 
           {/* Links Sections */}
-          <div className="md:col-span-12 lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-8">
+          <div className="md:col-span-12 lg:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-10">
             {Object.entries(footerLinks).map(([title, links]) => (
               <div key={title}>
-                <h4 className="text-slate-900 font-bold text-xs uppercase tracking-[0.2em] mb-8">
+                <h3 className="text-slate-900 font-black text-[10px] uppercase tracking-[0.3em] mb-8">
                   {title}
-                </h4>
+                </h3>
                 <ul className="space-y-4">
                   {links.map((link) => (
                     <li key={link.name}>
-                      <a
+                      <Link
                         href={link.href}
-                        className="group flex items-center text-slate-500 hover:text-green-600 transition-colors font-medium"
+                        className="group flex items-center text-slate-500 hover:text-green-600 transition-colors font-semibold text-sm"
                       >
                         {link.name}
-                        <ArrowUpRight size={14} className="ml-1 opacity-0 group-hover:opacity-100 transition-all -translate-y-1 group-hover:translate-y-0" />
-                      </a>
+                        <ArrowUpRight
+                          size={12}
+                          className="ml-1 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
+                        />
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -121,16 +111,16 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-10 border-t border-slate-200/60 flex flex-col md:row justify-between items-center gap-8">
-          <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-slate-400 text-sm font-medium">
-            <p>© {currentYear} BG THUB. All rights reserved.</p>
-            <a href="#" className="hover:text-slate-900">Privacy Policy</a>
-            <a href="#" className="hover:text-slate-900">Terms of Service</a>
+        <div className="pt-10 border-t border-slate-200/60 flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="flex flex-wrap justify-center md:justify-start gap-x-8 gap-y-2 text-slate-600 text-[10px] font-black uppercase tracking-widest">
+            <p>© {currentYear} BG THUB. ALL RIGHTS RESERVED.</p>
+            <Link href="/privacy" className="hover:text-slate-900 transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-slate-900 transition-colors">Terms of Service</Link>
           </div>
 
-          <div className="group relative cursor-default">
-            <div className="absolute -inset-1 bg-gradient-to-r from-green-400 to-emerald-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-            <div className="relative text-[11px] font-bold uppercase tracking-[0.2em] text-green-700 px-6 py-2.5 rounded-full border border-green-200 bg-white leading-none flex items-center">
+          <div className="group relative">
+            <div className="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-cyan-500 rounded-full blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+            <div className="relative text-[10px] font-black uppercase tracking-[0.2em] text-emerald-700 px-6 py-3 rounded-full border border-emerald-100 bg-white leading-none">
               From Idea to Impact
             </div>
           </div>

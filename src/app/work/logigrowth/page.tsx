@@ -133,7 +133,7 @@ export default function UnderConstruction() {
                     </p>
                     <h1 className="text-4xl md:text-6xl font-black text-gray-900 tracking-tight leading-[1.1]">
                         We are creating <br />
-                        <span className="text-emerald-600 italic">something amazing!!</span>
+                        <span className="text-green-600 italic">something amazing!!</span>
                     </h1>
                 </div>
 

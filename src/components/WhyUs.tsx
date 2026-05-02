@@ -123,7 +123,7 @@ const FeatureCard = ({ item, onClick }: { item: WhyDetail; onClick: () => void }
     // Added group/card here for specific icon child referencing
     className="group/card relative flex flex-col items-start text-left p-8 md:p-10 rounded-[2.5rem] bg-white border border-slate-200 shadow-sm transition-all duration-300 overflow-hidden w-full h-full cursor-pointer hover:border-emerald-400 hover:shadow-2xl"
   >
-    {/* <div className="absolute top-4 right-8 text-7xl font-black text-emerald-600 italic pointer-events-none group-hover/card:text-emerald-500/5 transition-colors">
+    {/* <div className="absolute top-4 right-8 text-7xl font-black text-green-600 italic pointer-events-none group-hover/card:text-emerald-500/5 transition-colors">
       {item.num}
     </div> */}
 
@@ -134,13 +134,13 @@ const FeatureCard = ({ item, onClick }: { item: WhyDetail; onClick: () => void }
       </div>
     </div>
 
-    <h3 className="text-xl font-black text-slate-900 mb-2 group-hover/card:text-emerald-600 transition-colors">
+    <h3 className="text-xl font-black text-slate-900 mb-2 group-hover/card:text-emerald-700 transition-colors">
       {item.title}
     </h3>
     <p className="text-sm text-slate-500 font-medium leading-relaxed mb-6">
       {item.tagline}
     </p>
-    <div className="mt-auto flex items-center gap-2 text-emerald-600 font-bold text-[10px] tracking-widest uppercase">
+    <div className="mt-auto flex items-center gap-2 text-emerald-700 font-bold text-[10px] tracking-widest uppercase">
       <span>View Analysis</span>
       <span className="w-6 h-6 flex items-center justify-center rounded-full bg-emerald-50 group-hover/card:bg-emerald-500 group-hover/card:text-white transition-all">→</span>
     </div>
@@ -162,12 +162,12 @@ export default function WhyUs() {
         <div className="max-w-2xl mx-auto text-center mb-16">
           <motion.span
             initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
-            className="text-emerald-600 font-bold tracking-[0.3em] uppercase text-[10px] mb-4 block"
+            className="text-emerald-700 font-bold tracking-[0.3em] uppercase text-[10px] mb-4 block"
           >
             The BG THUB Edge
           </motion.span>
           <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-6">
-            Why Partner <span className="text-emerald-600 italic">With Us?</span>
+            Why Partner <span className="text-emerald-700 italic">With Us?</span>
           </h2>
           <p className="text-slate-500 text-lg font-medium leading-relaxed">
             We move at startup speed to turn your vision into production-ready reality.
@@ -208,7 +208,7 @@ export default function WhyUs() {
                   </div>
                   <div>
                     <h2 className="text-3xl font-black text-slate-900 mb-1">{activeWhy.title}</h2>
-                    <p className="text-emerald-600 font-bold italic">{activeWhy.tagline}</p>
+                    <p className="text-emerald-700 font-bold italic">{activeWhy.tagline}</p>
                   </div>
                 </div>
 

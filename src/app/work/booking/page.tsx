@@ -337,6 +337,8 @@ export default function BookingPage() {
                         <img
                             src="/assets/images/bg_thub_logo1.png"
                             alt="BG THUB Logo"
+                            width={240}
+                            height={64}
                             className="h-16 w-auto object-contain"
                         />
                     </div>

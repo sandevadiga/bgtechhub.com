@@ -5,6 +5,7 @@ export interface IContact extends Document {
   email: string;
   message: string;
   type?: string;
+  projectType?: string; // ✅ Added to Interface
   phone?: string;
   budget?: string;
   createdAt: Date;
@@ -17,6 +18,7 @@ const contactSchema: Schema<IContact> = new Schema(
     email: { type: String, required: true },
     message: { type: String, required: true },
     type: { type: String },
+    projectType: { type: String }, // ✅ Added to Schema
     phone: { type: String },
     budget: { type: String },
   },

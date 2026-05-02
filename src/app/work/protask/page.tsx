@@ -31,6 +31,7 @@ import {
     FaFacebook as Facebook,
     FaWhatsapp as WhatsApp
 } from 'react-icons/fa6';
+import Navbar from '@/components/Navbar';
 
 const ProtaskLandingPage = () => {
 
@@ -52,50 +53,7 @@ const ProtaskLandingPage = () => {
     return (
         <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-emerald-100">
             {/* Navigation */}
-            {/* Decreased navbar height by reducing padding */}
-            <nav className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-md border-b border-gray-100">
-                <div className="flex items-center justify-between px-6 py-2 md:px-8 md:py-3 max-w-7xl mx-auto">
-
-                    {/* Logo Area - Slightly smaller to fit the slim bar */}
-                    <div className="flex-1 flex justify-start items-center">
-                        <Link href="/">
-                            <img src="/assets/images/logo.png" alt="Logo" className="h-8 md:h-9 w-auto cursor-pointer" />
-                        </Link>
-                    </div>
-
-                    {/* Desktop Navigation Links - Reduced vertical padding on the pill */}
-                    <div className="hidden md:flex items-center bg-gray-50/80 backdrop-blur-md rounded-full px-6 py-2 shadow-sm border border-gray-100 gap-8">
-                        {['Product', 'Features', 'Industries', 'Pricing'].map((item) => (
-                            <a key={item} href="#" className="text-sm font-semibold text-gray-600 hover:text-[#00C752] transition-colors">
-                                {item}
-                            </a>
-                        ))}
-                    </div>
-
-                    {/* Desktop Button - Reduced padding to match slim height */}
-                    <div className="flex-1 flex justify-end items-center gap-4">
-                        <button
-                            onClick={() => console.log("Booking...")}
-                            className="hidden sm:flex group relative bg-[#0f0f0f] text-white px-5 py-2.5 rounded-full items-center gap-3 transition-all duration-500 hover:shadow-[0_10px_20px_-10px_rgba(0,199,82,0.3)] hover:-translate-y-0.5 active:scale-95"
-                        >
-                            <span className="font-bold text-xs uppercase tracking-[0.1em] relative z-10">
-                                Book a call
-                            </span>
-                            <span className="relative z-10 bg-white/5 border border-white/10 rounded-full p-1 group-hover:bg-[#00C752] transition-all duration-500">
-                                <ArrowUpRight size={14} className="group-hover:rotate-45 transition-transform" />
-                            </span>
-                        </button>
-
-                        {/* Hamburger Icon */}
-                        <button
-                            className="md:hidden p-1 text-gray-900 focus:outline-none"
-                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        >
-                            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                        </button>
-                    </div>
-                </div>
-            </nav>
+            <Navbar />
 
             {/* Hero Section */}
             <main className="max-w-7xl mx-auto px-8 pt-12 md:pt-20 pb-20">
@@ -122,8 +80,7 @@ const ProtaskLandingPage = () => {
 
                         <div className="space-y-6">
                             <h1 className="text-2xl md:text-3xl lg:text-4xl font-black leading-[0.95] tracking-tighter text-slate-900">
-                                Smarter Task &
-                                <span className="text-slate-400">Task</span><br />
+                                <span> Smarter Task </span> <br />
                                 <span className="text-[#00C752] italic font-serif">Distribution.</span><br />
                             </h1>
                             <p className="text-lg md:text-xl text-gray-500 leading-relaxed max-w-lg">
@@ -372,7 +329,7 @@ const ProtaskLandingPage = () => {
                             </p>
                             <div className="h-[1px] w-full bg-gray-100 mb-6" />
                             <ul className="space-y-4 text-[18px] font-semibold text-slate-900">
-                                {['Web Development', 'Landing Page', 'UI/UX'].map((service) => (
+                                {['UI/UX', 'Logo Designing', 'Web Development', 'App Development',].map((service) => (
                                     <li key={service} className="hover:text-[#00C752] transition-colors cursor-default">
                                         {service}
                                     </li>

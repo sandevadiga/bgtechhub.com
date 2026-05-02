@@ -44,11 +44,11 @@ export default function Products() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 mb-6 rounded-full border border-emerald-500/20 bg-emerald-500/5 backdrop-blur-sm">
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-emerald-600 font-bold tracking-[0.2em] uppercase text-[9px]">Our Work</span>
+            <span className="text-emerald-700 font-bold tracking-[0.2em] uppercase text-[9px]">Our Work</span>
           </div>
 
           <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-6 leading-tight">
-            Our <span className="text-emerald-600 italic font-serif">Projects</span>
+            Our <span className="text-emerald-700 italic font-serif">Projects</span>
           </h2>
         </motion.div>
 
@@ -70,7 +70,7 @@ export default function Products() {
                     <img src={p.logo} alt={p.name} className="w-full h-full object-contain" />
                   </div>
                   <h3 className="text-2xl font-black text-slate-900 tracking-tighter mb-4">{p.name}</h3>
-                  <div className="inline-flex items-center gap-2 text-[10px] font-black text-emerald-600 uppercase tracking-[0.3em] opacity-60 group-hover:opacity-100 transition-opacity">
+                  <div className="inline-flex items-center gap-2 text-[10px] font-black text-emerald-700 uppercase tracking-[0.3em] group-hover:text-emerald-600 transition-colors">
                     Visit Project <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
